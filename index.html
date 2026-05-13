@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -294,6 +294,160 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
   .result-cards{grid-template-columns:1fr}
   .modal{padding:20px 16px}
 }
+
+/* ===== FAVORITES ===== */
+.fav-float{position:fixed;top:14px;right:14px;z-index:900;background:var(--card);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.25em;transition:all 0.2s;box-shadow:0 2px 10px rgba(0,0,0,0.4)}
+.fav-float:hover{border-color:var(--neon);box-shadow:var(--shadow)}
+.fav-badge{position:absolute;top:-5px;right:-5px;background:var(--neon);color:#000;border-radius:50%;width:18px;height:18px;font-size:0.62em;font-weight:700;display:flex;align-items:center;justify-content:center;display:none}
+.fav-panel{position:fixed;top:0;right:-350px;width:320px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);z-index:910;transition:right 0.3s ease;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,0.5)}
+.fav-panel.open{right:0}
+.fav-panel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+.fav-panel-title{font-size:1em;font-weight:600;color:var(--neon)}
+.fav-tab-row{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.fav-body{flex:1;overflow-y:auto;padding:10px 14px}
+.fav-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--card);border-radius:8px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;border:1px solid var(--border)}
+.fav-item:hover{border-color:var(--neon)}
+.fav-item-info{flex:1;min-width:0}
+.fav-item-main{font-size:0.9em;font-weight:600;color:var(--text)}
+.fav-item-sub{font-size:0.74em;color:var(--text3)}
+.fav-del-btn{background:none;border:none;color:var(--text3);cursor:pointer;padding:2px 7px;font-size:1em;flex-shrink:0}
+.fav-del-btn:hover{color:var(--red)}
+.fav-empty{text-align:center;color:var(--text3);padding:28px 16px;font-size:0.88em}
+.fav-clear-btn{width:100%;background:rgba(255,68,102,0.1);border:1px solid rgba(255,68,102,0.3);color:var(--red);padding:8px;border-radius:8px;cursor:pointer;font-size:0.82em;margin-top:6px;transition:all 0.2s}
+.fav-clear-btn:hover{background:rgba(255,68,102,0.2)}
+.fav-star-btn{background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--text3);padding:4px 6px;line-height:1;transition:color 0.2s;flex-shrink:0}
+.fav-star-btn.starred{color:#ffdd00}
+.fav-star-btn:hover{color:#ffdd00}
+
+/* ===== COMPARE PANEL ===== */
+.compare-panel{position:fixed;bottom:-360px;left:0;right:0;background:var(--bg2);border-top:2px solid var(--neon);z-index:790;transition:bottom 0.35s ease;box-shadow:0 -4px 24px rgba(0,0,0,0.5)}
+.compare-panel.open{bottom:0}
+.compare-head{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border)}
+.compare-title{font-size:0.95em;font-weight:600;color:var(--neon)}
+.compare-slots{display:flex;gap:10px;padding:0 0 0 8px;align-items:center}
+.compare-slot{padding:4px 12px;border:1px dashed var(--border);border-radius:6px;color:var(--text3);font-size:0.82em}
+.compare-slot.filled{border-color:var(--neon);color:var(--neon);font-weight:600}
+.compare-body{overflow-x:auto;padding:12px 18px;max-height:280px}
+.compare-table{width:100%;border-collapse:collapse;min-width:480px}
+.compare-table th{padding:7px 12px;font-size:0.75em;color:var(--text3);font-weight:500;border-bottom:1px solid var(--border);text-align:center}
+.compare-table th.prop-col{text-align:left;width:160px}
+.compare-table th.el-col{min-width:120px}
+.compare-table td{padding:6px 12px;border-bottom:1px solid rgba(42,58,90,0.5);font-size:0.84em;text-align:center}
+.compare-table td.prop-col{text-align:left;color:var(--text2)}
+.compare-bar{display:inline-block;height:6px;border-radius:3px;background:var(--neon);vertical-align:middle;margin-left:6px;opacity:0.8}
+.element-cell.compare-selected{outline:2px solid var(--neon);box-shadow:0 0 14px rgba(0,255,200,0.5)}
+
+/* ===== SHARED NEW PAGE CSS ===== */
+.tab-row{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab-btn{background:var(--card);border:1px solid var(--border);color:var(--text2);padding:9px 18px;border-radius:8px;cursor:pointer;font-size:0.88em;transition:all 0.2s}
+.tab-btn.active{background:var(--neon);color:#000;border-color:var(--neon);font-weight:600}
+.tab-content{display:none}.tab-content.active{display:block}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.calc-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:700px){.calc-row,.calc-row3{grid-template-columns:1fr}}
+.clabel{display:block;color:var(--text2);font-size:0.82em;margin-bottom:6px}
+.cinput{width:100%;background:var(--bg);border:2px solid var(--border);color:var(--text);padding:10px 13px;border-radius:8px;font-size:0.95em;font-family:inherit;outline:none;transition:border-color 0.2s;margin-bottom:14px}
+.cinput:focus{border-color:var(--neon)}
+.cselect{width:100%;background:var(--bg);border:2px solid var(--border);color:var(--text);padding:10px 13px;border-radius:8px;font-size:0.95em;font-family:inherit;outline:none;margin-bottom:14px}
+.cbtn{background:var(--neon);color:#000;border:none;padding:11px 20px;border-radius:8px;font-size:0.95em;font-weight:700;cursor:pointer;transition:all 0.2s;width:100%;margin-top:2px}
+.cbtn:hover{background:var(--neon3);box-shadow:0 0 16px rgba(0,255,200,0.3)}
+.cresult{background:var(--bg);border:1px solid var(--neon);border-radius:10px;padding:16px 18px;margin-top:6px;display:none}
+.cresult-main{font-size:2em;font-weight:700;color:var(--neon);margin-bottom:6px}
+.cresult-sub{font-size:0.84em;color:var(--text2);line-height:1.8}
+.cerr{color:var(--red);font-size:0.81em;margin-top:-10px;margin-bottom:10px;display:none;padding:5px 10px;background:rgba(255,68,102,0.1);border-radius:6px;border:1px solid rgba(255,68,102,0.3)}
+
+/* ===== EQUATION BALANCER ===== */
+.bal-input-row{display:flex;gap:10px;margin-bottom:14px}
+.bal-input{flex:1;background:var(--bg);border:2px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-size:1.05em;font-family:inherit;outline:none;transition:border-color 0.2s}
+.bal-input:focus{border-color:var(--neon)}
+.bal-examples{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.bal-ex-btn{background:var(--bg);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:0.8em;transition:all 0.2s}
+.bal-ex-btn:hover{border-color:var(--neon);color:var(--neon)}
+.bal-display{background:var(--bg);border:1px solid var(--neon);border-radius:12px;padding:20px;text-align:center;font-size:1.4em;font-weight:600;letter-spacing:0.5px;line-height:1.8;display:none;word-break:break-all}
+.bal-coef{color:var(--neon);font-weight:800}
+.bal-arrow{color:var(--text2);margin:0 8px}
+.bal-check-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:0.85em}
+.bal-check-table th,.bal-check-table td{padding:7px 12px;border:1px solid var(--border);text-align:center}
+.bal-check-table th{background:var(--card);color:var(--text3);font-size:0.77em}
+.bal-check-table .ok{color:var(--neon)}
+.bal-type{margin-top:10px;font-size:0.85em;color:var(--text2)}
+.bal-copy-btn{background:var(--card);border:1px solid var(--border);color:var(--text2);padding:7px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;transition:all 0.2s}
+.bal-copy-btn:hover{border-color:var(--neon);color:var(--neon)}
+
+/* ===== ACID-BASE ===== */
+.ph-bar-wrap{margin:14px 0}
+.ph-bar{height:18px;border-radius:9px;background:linear-gradient(90deg,#ff2200,#ff6600,#ffcc00,#aaff00,#00ff88,#00aaff,#4400ff);position:relative}
+.ph-cursor{position:absolute;top:-6px;width:5px;height:30px;background:#fff;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 8px rgba(255,255,255,0.7);transition:left 0.4s}
+.ph-labels{display:flex;justify-content:space-between;font-size:0.68em;color:var(--text3);margin-top:3px}
+.ph-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ph-val{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.ph-val label{display:block;font-size:0.7em;color:var(--text3);margin-bottom:4px}
+.ph-val .v{font-size:1.25em;font-weight:700;color:var(--neon)}
+.tit-canvas-wrap{background:#050a14;border:1px solid var(--border);border-radius:10px;position:relative;height:260px;margin-bottom:12px}
+.buf-result{background:var(--bg);border:1px solid var(--neon);border-radius:8px;padding:14px;margin-top:8px;display:none}
+.ka-select{margin-bottom:14px}
+
+/* ===== SOLUBILITY ===== */
+.sol-table-wrap{overflow-x:auto;margin-bottom:18px;border:1px solid var(--border);border-radius:8px}
+.sol-tbl{border-collapse:collapse;min-width:700px}
+.sol-tbl th{padding:7px 10px;font-size:0.72em;color:var(--text2);background:var(--card);border:1px solid var(--border);text-align:center;white-space:nowrap}
+.sol-tbl .cation-header{text-align:right;padding-right:12px;font-size:0.75em;color:var(--neon)}
+.sol-tbl td{width:54px;height:42px;text-align:center;border:1px solid var(--border);cursor:pointer;font-size:0.8em;font-weight:600;transition:all 0.15s}
+.sol-tbl td:hover{transform:scale(1.08);z-index:10;box-shadow:0 0 10px rgba(0,255,200,0.4);position:relative}
+.sol-s{background:rgba(0,200,80,0.2);color:#00cc55}
+.sol-i{background:rgba(255,50,50,0.2);color:#ff4455}
+.sol-sl{background:rgba(255,200,0,0.18);color:#ffcc00}
+.sol-na{background:rgba(60,70,110,0.3);color:var(--text3)}
+.sol-tbl td.hl{outline:2px solid var(--neon);outline-offset:-1px}
+.sol-rule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;margin-bottom:18px}
+.sol-rule{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:13px 15px;cursor:pointer;transition:all 0.2s}
+.sol-rule:hover,.sol-rule.active{border-color:var(--neon)}
+.sol-rule h4{font-size:0.85em;color:var(--neon);margin-bottom:3px}
+.sol-rule p{font-size:0.77em;color:var(--text2);line-height:1.5}
+.sol-lookup-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+
+/* ===== ELECTROCHEMISTRY ===== */
+.redox-tbl{width:100%;border-collapse:collapse;font-size:0.85em}
+.redox-tbl th{padding:8px 12px;background:var(--card);color:var(--text3);font-size:0.76em;text-align:left;border:1px solid var(--border)}
+.redox-tbl td{padding:8px 12px;border:1px solid var(--border)}
+.redox-tbl tr:nth-child(even){background:rgba(255,255,255,0.025)}
+.redox-tbl tr:hover{background:rgba(0,255,200,0.05);cursor:pointer}
+.redox-tbl tr.sel{background:rgba(0,255,200,0.1);border-left:2px solid var(--neon)}
+.redox-tbl .eo{font-weight:700;color:var(--neon)}
+.redox-sel-boxes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.redox-sel-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px}
+.redox-sel-box h4{font-size:0.78em;color:var(--text3);margin-bottom:7px}
+.redox-sel-label{font-size:0.82em;color:var(--text2)}
+.cell-result{background:var(--bg);border:1px solid var(--neon);border-radius:10px;padding:16px 18px;margin-top:8px;display:none}
+.cell-result-main{font-size:1.8em;font-weight:700;color:var(--neon);margin-bottom:8px}
+.cell-result-sub{font-size:0.83em;color:var(--text2);line-height:1.9}
+.electro-result{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:12px;display:none}
+.electro-result-main{font-size:1.6em;font-weight:700;color:var(--neon);margin-bottom:6px}
+.oxstate-result{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:10px;display:none}
+.oxstate-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.oxstate-chip{display:flex;align-items:center;gap:5px;padding:6px 12px;background:var(--card);border-radius:6px;border:1px solid var(--border);font-size:0.87em}
+.oxstate-sym{color:var(--neon);font-weight:700}
+.redox-search{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:9px 13px;border-radius:8px;font-size:0.88em;outline:none;margin-bottom:12px;font-family:inherit}
+.redox-search:focus{border-color:var(--neon)}
+
+/* ===== STATIC REACTION DISPLAY ===== */
+.sim-rxn-display{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px 20px;margin-bottom:18px;min-height:108px;display:flex;align-items:center;justify-content:center;transition:border-color 0.35s}
+.sim-rxn-display.active{border-color:var(--neon);box-shadow:0 0 18px rgba(0,255,200,0.08)}
+.sim-rxn-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;font-size:1.25em;font-weight:600}
+.sim-rxn-term{background:var(--card);border:1px solid var(--border);padding:8px 14px;border-radius:8px;font-size:0.88em}
+.sim-rxn-arrow{color:var(--neon);font-size:1.1em;padding:0 6px}
+.sim-rxn-plus{color:var(--text3);padding:0 4px;font-size:1em}
+.sim-rxn-coef{color:var(--neon);font-weight:800;margin-right:3px}
+.sim-rxn-empty{color:var(--text3);font-size:0.92em}
+
+/* ===== ENHANCED ERROR HANDLING ===== */
+.formula-input.fi-valid{border-color:var(--neon)}
+.formula-input.fi-error{border-color:var(--red)}
+.analyzer-inline-err{display:none;color:var(--red);font-size:0.81em;margin-top:-12px;margin-bottom:12px;padding:5px 10px;background:rgba(255,68,102,0.1);border-radius:6px;border:1px solid rgba(255,68,102,0.25)}
+.viewer-err-ui{text-align:center;padding:24px 16px;color:var(--text3)}
+.viewer-err-ui .ve-icon{font-size:3em;margin-bottom:10px}
+.viewer-err-ui .ve-msg{color:var(--red);font-size:0.95em;margin-bottom:6px;font-weight:600}
+.viewer-err-ui .ve-sub{font-size:0.82em;line-height:1.6;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -330,6 +484,31 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
       <h2>화학 반응 시뮬레이터</h2>
       <p>6가지 반응의 Canvas 애니메이션 · 에너지 다이어그램 · 농도-시간 그래프<br>온도/촉매/압력 슬라이더로 반응 조건 변화 실시간 관찰</p>
     </div>
+    <div class="main-card" onclick="goTo('lab-calc')">
+      <div class="icon">🧫</div>
+      <h2>실험실 계산기</h2>
+      <p>몰농도 · 묽힘(C₁V₁=C₂V₂) · 수율 계산<br>농도 단위 변환 & 역산 지원</p>
+    </div>
+    <div class="main-card" onclick="goTo('balancer')">
+      <div class="icon">⚖️</div>
+      <h2>반응식 밸런서</h2>
+      <p>화학 반응식 자동 균형 맞추기<br>가우스 소거법 · 원자 수 검증 테이블</p>
+    </div>
+    <div class="main-card" onclick="goTo('acid-base')">
+      <div class="icon">🧴</div>
+      <h2>산-염기 계산기</h2>
+      <p>pH · 적정 곡선 · 완충 용액 계산<br>Ka/Kb 데이터베이스 내장</p>
+    </div>
+    <div class="main-card" onclick="goTo('solubility')">
+      <div class="icon">🧩</div>
+      <h2>용해도 규칙 표</h2>
+      <p>13 양이온 × 10 음이온 색상 매트릭스<br>규칙 카드 · 화합물 빠른 조회</p>
+    </div>
+    <div class="main-card" onclick="goTo('electrochemistry')">
+      <div class="icon">⚡</div>
+      <h2>전기화학</h2>
+      <p>표준 환원 전위 · 전지 전위 · 전기분해<br>산화수 계산기 · 네른스트 방정식</p>
+    </div>
   </div>
 </div>
 
@@ -344,7 +523,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
     <div class="sim-eq-row">
       <input type="text" class="sim-eq-input" id="sim-eq-input" placeholder="예: CH4 + 2O2 -> CO2 + 2H2O  또는  H2 + O2 -> H2O" aria-label="반응식 입력">
       <button class="sim-sbtn" onclick="doBalance()">⚖ 균형 맞추기</button>
-      <button class="sim-sbtn primary" onclick="startSim()">▶ 시뮬레이션 시작</button>
     </div>
     <div class="sim-presets">
       <button class="sim-pbtn active" data-rxn="h2burn"   onclick="selectSimRxn('h2burn')">💧 수소 연소</button>
@@ -354,13 +532,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
       <button class="sim-pbtn"        data-rxn="ammonia"  onclick="selectSimRxn('ammonia')">🌿 암모니아 합성</button>
       <button class="sim-pbtn"        data-rxn="h2o2"     onclick="selectSimRxn('h2o2')">🧪 H₂O₂ 분해</button>
     </div>
-    <div class="sim-canvas-wrap">
-      <canvas id="sim-canvas" height="260"></canvas>
-      <div class="sim-canvas-bar">
-        <span class="sim-status" id="sim-status">반응 대기 중…</span>
-        <button class="sim-sbtn" id="btn-sim-pause" onclick="pauseSim()" style="padding:6px 12px;min-height:34px;font-size:0.82em">⏸ 일시정지</button>
-        <button class="sim-sbtn" onclick="resetSim()" style="padding:6px 12px;min-height:34px;font-size:0.82em">⏮ 처음으로</button>
-      </div>
+    <div id="sim-rxn-display" class="sim-rxn-display">
+      <div class="sim-rxn-inner" id="sim-rxn-inner"><span class="sim-rxn-empty">반응식을 입력하거나 아래 프리셋을 선택하세요.</span></div>
     </div>
     <div class="sim-charts-row">
       <div class="sim-cpanel">
@@ -416,7 +589,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
       <button class="btn active" id="btn-category" onclick="setMode('category')">분류별 색상</button>
       <button class="btn" id="btn-heatmap" onclick="setMode('heatmap')">전기음성도 히트맵</button>
       <button class="btn" id="btn-default" onclick="setMode('default')">기본</button>
+      <button class="btn" id="btn-compare-mode" onclick="toggleCompareMode()" style="margin-left:auto">⚖ 원소 비교</button>
     </div>
+    <div id="compare-hint" style="display:none;font-size:0.82em;color:var(--neon);margin-bottom:10px;padding:6px 10px;background:rgba(0,255,200,0.07);border-radius:6px">원소를 2개 클릭하여 비교하세요. 다시 클릭하면 해제됩니다.</div>
     <div class="pt-legend" id="pt-legend">
       <div class="legend-item"><div class="legend-dot" style="background:#4a7a1a"></div>알칼리 금속</div>
       <div class="legend-item"><div class="legend-dot" style="background:#4a6a20"></div>알칼리 토금속</div>
@@ -435,6 +610,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
 <div class="modal-overlay" id="el-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()" aria-label="닫기">×</button>
+    <button class="fav-star-btn" id="m-fav-btn" onclick="toggleFavElement()" style="position:absolute;top:12px;right:46px" title="즐겨찾기">☆</button>
     <div class="modal-sym" id="m-sym"></div>
     <div class="modal-name" id="m-name"></div>
     <div class="modal-num" id="m-num"></div>
@@ -463,6 +639,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
           <label>분자식 입력</label>
           <input type="text" class="formula-input" id="formula-input" placeholder="H2O, CO2, CH4 …"
             aria-label="분자식 입력" oninput="analyzeFormula(this.value)">
+          <div class="analyzer-inline-err" id="analyzer-inline-err"></div>
         </div>
         <div class="input-group">
           <label>빠른 선택</label>
@@ -502,7 +679,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
                 <span id="r-mw">-</span> <span style="font-size:0.48em;color:var(--text2)">g/mol</span>
               </div>
             </div>
-            <div style="font-size:1.1em;color:var(--text2)" id="r-formula"></div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="font-size:1.1em;color:var(--text2)" id="r-formula"></div>
+              <button class="fav-star-btn" id="r-fav-btn" onclick="toggleFavMolecule()" title="즐겨찾기">☆</button>
+            </div>
           </div>
           <div class="result-cards">
             <div class="result-card"><label>극성 여부</label><div class="value" id="r-polarity">-</div><div class="sub" id="r-polarity-reason">-</div></div>
@@ -665,6 +845,456 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
       </div>
     </div>
   </div>
+</div>
+
+<!-- ===== LAB CALCULATOR ===== -->
+<div id="lab-calc" class="page">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('main')">← 메인</button>
+    <span class="page-title">🧫 실험실 계산기</span>
+  </div>
+  <div class="container">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="labTab('molarity')">몰농도 계산</button>
+      <button class="tab-btn" onclick="labTab('dilution')">묽힘 계산</button>
+      <button class="tab-btn" onclick="labTab('yield')">수율 계산</button>
+    </div>
+
+    <div id="lab-tab-molarity" class="tab-content active">
+      <div style="max-width:560px">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:1em;margin-bottom:16px">몰농도 (M = n/V)</h3>
+          <div class="calc-row">
+            <div>
+              <label class="clabel">질량 (g)</label>
+              <input class="cinput" id="mol-mass" type="number" placeholder="예: 5.85" oninput="calcMolarity()">
+              <label class="clabel">몰 질량 (g/mol)</label>
+              <input class="cinput" id="mol-mm" type="number" placeholder="예: 58.44 (NaCl)" oninput="calcMolarity()">
+            </div>
+            <div>
+              <label class="clabel">부피 (L)</label>
+              <input class="cinput" id="mol-vol" type="number" placeholder="예: 0.250" oninput="calcMolarity()">
+              <div id="mol-result" class="cresult">
+                <div class="cresult-main" id="mol-M">-</div>
+                <div class="cresult-sub" id="mol-sub"></div>
+              </div>
+            </div>
+          </div>
+          <div class="cerr" id="mol-err"></div>
+          <hr style="border-color:var(--border);margin:16px 0">
+          <h3 style="color:var(--neon);font-size:0.95em;margin-bottom:12px">역산: 농도 → 질량</h3>
+          <div class="calc-row">
+            <div>
+              <label class="clabel">목표 농도 (M)</label>
+              <input class="cinput" id="mol-tgt-M" type="number" placeholder="예: 0.1" oninput="calcMolarityRev()">
+              <label class="clabel">몰 질량 (g/mol)</label>
+              <input class="cinput" id="mol-tgt-mm" type="number" placeholder="예: 58.44" oninput="calcMolarityRev()">
+            </div>
+            <div>
+              <label class="clabel">부피 (L)</label>
+              <input class="cinput" id="mol-tgt-vol" type="number" placeholder="예: 1.0" oninput="calcMolarityRev()">
+              <div id="mol-rev-result" class="cresult">
+                <div class="cresult-main" id="mol-rev-mass">-</div>
+                <div class="cresult-sub" id="mol-rev-sub"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="lab-tab-dilution" class="tab-content">
+      <div style="max-width:560px">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:1em;margin-bottom:16px">묽힘 계산 (C₁V₁ = C₂V₂)</h3>
+          <div class="calc-row">
+            <div>
+              <label class="clabel">초기 농도 C₁</label>
+              <div style="display:flex;gap:8px;margin-bottom:14px"><input class="cinput" id="dil-c1" type="number" placeholder="값" style="margin-bottom:0;flex:1" oninput="calcDilution()"><select class="cselect" id="dil-u1" style="margin-bottom:0;width:80px" onchange="calcDilution()"><option>M</option><option>mM</option><option>μM</option></select></div>
+              <label class="clabel">초기 부피 V₁ (mL)</label>
+              <input class="cinput" id="dil-v1" type="number" placeholder="예: 10" oninput="calcDilution()">
+            </div>
+            <div>
+              <label class="clabel">목표 농도 C₂</label>
+              <div style="display:flex;gap:8px;margin-bottom:14px"><input class="cinput" id="dil-c2" type="number" placeholder="값" style="margin-bottom:0;flex:1" oninput="calcDilution()"><select class="cselect" id="dil-u2" style="margin-bottom:0;width:80px" onchange="calcDilution()"><option>M</option><option>mM</option><option>μM</option></select></div>
+              <div id="dil-result" class="cresult">
+                <div class="cresult-main" id="dil-v2">-</div>
+                <div class="cresult-sub" id="dil-sub"></div>
+              </div>
+            </div>
+          </div>
+          <div class="cerr" id="dil-err"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="lab-tab-yield" class="tab-content">
+      <div style="max-width:560px">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:1em;margin-bottom:16px">수율 계산</h3>
+          <div class="calc-row">
+            <div>
+              <label class="clabel">반응물 질량 (g)</label>
+              <input class="cinput" id="yld-reactant" type="number" placeholder="예: 10.0" oninput="calcYield()">
+              <label class="clabel">반응물 몰 질량 (g/mol)</label>
+              <input class="cinput" id="yld-rmm" type="number" placeholder="예: 100" oninput="calcYield()">
+              <label class="clabel">몰 비율 (생성물/반응물)</label>
+              <input class="cinput" id="yld-ratio" type="number" placeholder="예: 1" value="1" oninput="calcYield()">
+            </div>
+            <div>
+              <label class="clabel">생성물 몰 질량 (g/mol)</label>
+              <input class="cinput" id="yld-pmm" type="number" placeholder="예: 120" oninput="calcYield()">
+              <label class="clabel">실제 수득량 (g)</label>
+              <input class="cinput" id="yld-actual" type="number" placeholder="예: 8.5" oninput="calcYield()">
+              <div id="yld-result" class="cresult">
+                <div class="cresult-main" id="yld-pct">-</div>
+                <div class="cresult-sub" id="yld-sub"></div>
+              </div>
+            </div>
+          </div>
+          <div class="cerr" id="yld-err"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EQUATION BALANCER ===== -->
+<div id="balancer" class="page">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('main')">← 메인</button>
+    <span class="page-title">⚖️ 반응식 밸런서</span>
+  </div>
+  <div class="container">
+    <div style="max-width:800px">
+      <div class="panel" style="margin-bottom:18px">
+        <div class="bal-input-row">
+          <input class="bal-input" id="bal-input" placeholder="예: CH4 + O2 -> CO2 + H2O  또는  H2 + O2 = H2O" oninput="balancerInputChange()">
+          <button class="cbtn" style="width:auto;padding:11px 22px" onclick="runBalancer()">균형 맞추기</button>
+        </div>
+        <div class="bal-examples">
+          <button class="bal-ex-btn" onclick="setBal('CH4 + O2 -> CO2 + H2O')">메탄 연소</button>
+          <button class="bal-ex-btn" onclick="setBal('C3H8 + O2 -> CO2 + H2O')">프로판 연소</button>
+          <button class="bal-ex-btn" onclick="setBal('Fe + O2 -> Fe2O3')">철 산화</button>
+          <button class="bal-ex-btn" onclick="setBal('Al + O2 -> Al2O3')">알루미늄 산화</button>
+          <button class="bal-ex-btn" onclick="setBal('HCl + NaOH -> NaCl + H2O')">중화 반응</button>
+          <button class="bal-ex-btn" onclick="setBal('H2SO4 + NaOH -> Na2SO4 + H2O')">황산 중화</button>
+          <button class="bal-ex-btn" onclick="setBal('N2 + H2 -> NH3')">암모니아 합성</button>
+          <button class="bal-ex-btn" onclick="setBal('Ca + H2O -> CaOH2 + H2')">칼슘+물</button>
+        </div>
+        <div class="cerr" id="bal-err"></div>
+      </div>
+
+      <div id="bal-display" class="bal-display"></div>
+      <div id="bal-info" style="display:none;margin-top:14px">
+        <div id="bal-type" class="bal-type"></div>
+        <button class="bal-copy-btn" onclick="copyBalanced()">📋 복사</button>
+        <div style="margin-top:16px;font-size:0.88em;color:var(--text2);margin-bottom:8px">원자 수 검증</div>
+        <div style="overflow-x:auto"><table class="bal-check-table" id="bal-check-table"></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ACID-BASE CALCULATOR ===== -->
+<div id="acid-base" class="page">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('main')">← 메인</button>
+    <span class="page-title">🧴 산-염기 계산기</span>
+  </div>
+  <div class="container">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="abTab('ph')">pH 계산기</button>
+      <button class="tab-btn" onclick="abTab('tit')">적정 곡선</button>
+      <button class="tab-btn" onclick="abTab('buf')">완충 용액</button>
+    </div>
+
+    <div id="ab-tab-ph" class="tab-content active">
+      <div style="max-width:560px">
+        <div class="panel">
+          <label class="clabel">산/염기 유형</label>
+          <select class="cselect" id="ph-type" onchange="calcPH()">
+            <option value="sa">강산 (strong acid)</option>
+            <option value="sb">강염기 (strong base)</option>
+            <option value="wa">약산 (weak acid, Ka 입력)</option>
+            <option value="wb">약염기 (weak base, Kb 입력)</option>
+          </select>
+          <div id="ph-ka-row" style="display:none">
+            <label class="clabel">Ka 또는 Kb 빠른 선택</label>
+            <select class="cselect ka-select" id="ph-ka-preset" onchange="applyKaPreset()">
+              <option value="">-- 직접 입력 --</option>
+              <option value="1.8e-5">아세트산 CH₃COOH (Ka=1.8×10⁻⁵)</option>
+              <option value="4.3e-7">탄산 H₂CO₃ (Ka₁=4.3×10⁻⁷)</option>
+              <option value="6.2e-8">아질산 HNO₂ (Ka=6.2×10⁻⁸)</option>
+              <option value="7.5e-3">HF (Ka=7.5×10⁻⁴)</option>
+              <option value="1.8e-4">HCOOH 폼산 (Ka=1.8×10⁻⁴)</option>
+              <option value="1.76e-5">NH₃ (Kb=1.76×10⁻⁵)</option>
+              <option value="4.4e-4">N₂H₄ 하이드라진 (Kb=4.4×10⁻⁴)</option>
+              <option value="1.5e-9">아닐린 C₆H₅NH₂ (Kb=1.5×10⁻⁹)</option>
+            </select>
+            <label class="clabel">Ka / Kb 값 (직접 입력)</label>
+            <input class="cinput" id="ph-ka" type="number" step="any" placeholder="예: 1.8e-5" oninput="calcPH()">
+          </div>
+          <label class="clabel">농도 (M)</label>
+          <input class="cinput" id="ph-conc" type="number" step="any" placeholder="예: 0.1" oninput="calcPH()">
+          <div class="cerr" id="ph-err"></div>
+          <div id="ph-result" style="display:none">
+            <div class="ph-bar-wrap">
+              <div class="ph-bar"><div class="ph-cursor" id="ph-cursor"></div></div>
+              <div class="ph-labels"><span>0</span><span>2</span><span>4</span><span>6</span><span>7</span><span>8</span><span>10</span><span>12</span><span>14</span></div>
+            </div>
+            <div class="ph-result-grid">
+              <div class="ph-val"><label>pH</label><div class="v" id="ph-ph">-</div></div>
+              <div class="ph-val"><label>pOH</label><div class="v" id="ph-poh">-</div></div>
+              <div class="ph-val"><label>[H⁺] (M)</label><div class="v" id="ph-hp">-</div></div>
+              <div class="ph-val"><label>[OH⁻] (M)</label><div class="v" id="ph-ohp">-</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ab-tab-tit" class="tab-content">
+      <div class="calc-row">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:0.95em;margin-bottom:14px">적정 조건</h3>
+          <label class="clabel">산 유형</label>
+          <select class="cselect" id="tit-acid-type" onchange="drawTitration()">
+            <option value="strong">강산</option>
+            <option value="weak">약산 (Ka=1.8×10⁻⁵)</option>
+          </select>
+          <label class="clabel">산 농도 (M)</label>
+          <input class="cinput" id="tit-ca" type="number" value="0.1" oninput="drawTitration()">
+          <label class="clabel">산 부피 (mL)</label>
+          <input class="cinput" id="tit-va" type="number" value="25" oninput="drawTitration()">
+          <label class="clabel">염기 농도 (M)</label>
+          <input class="cinput" id="tit-cb" type="number" value="0.1" oninput="drawTitration()">
+          <label class="clabel">첨가 부피 슬라이더 (mL)</label>
+          <input type="range" id="tit-slider" min="0" max="80" value="0" style="width:100%;accent-color:var(--neon)" oninput="updateTitSlider()">
+          <div style="font-size:0.82em;color:var(--text2);margin-top:4px" id="tit-slider-label">NaOH 0 mL 첨가 → pH <span id="tit-slider-ph">-</span></div>
+        </div>
+        <div>
+          <div class="tit-canvas-wrap"><canvas id="tit-canvas"></canvas></div>
+          <div id="tit-info" style="font-size:0.82em;color:var(--text2);padding:10px;background:var(--card);border-radius:8px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ab-tab-buf" class="tab-content">
+      <div style="max-width:560px">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:0.95em;margin-bottom:14px">Henderson-Hasselbalch 완충 용액</h3>
+          <label class="clabel">Ka 빠른 선택</label>
+          <select class="cselect" id="buf-ka-preset" onchange="applyBufKaPreset()">
+            <option value="">-- 직접 입력 --</option>
+            <option value="1.8e-5">아세트산/아세트산나트륨 (Ka=1.8×10⁻⁵)</option>
+            <option value="6.2e-8">HNO₂/NO₂⁻ (Ka=6.2×10⁻⁸)</option>
+            <option value="4.3e-7">H₂CO₃/HCO₃⁻ (Ka=4.3×10⁻⁷)</option>
+            <option value="7.5e-4">HF/F⁻ (Ka=7.5×10⁻⁴)</option>
+          </select>
+          <label class="clabel">Ka 값</label>
+          <input class="cinput" id="buf-ka" type="number" step="any" placeholder="예: 1.8e-5" oninput="calcBuffer()">
+          <label class="clabel">약산 농도 [HA] (M)</label>
+          <input class="cinput" id="buf-ha" type="number" step="any" placeholder="예: 0.1" oninput="calcBuffer()">
+          <label class="clabel">짝염기 농도 [A⁻] (M)</label>
+          <input class="cinput" id="buf-a" type="number" step="any" placeholder="예: 0.1" oninput="calcBuffer()">
+          <div class="cerr" id="buf-err"></div>
+          <div class="buf-result" id="buf-result">
+            <div class="cresult-main" id="buf-ph">pH = -</div>
+            <div class="cresult-sub" id="buf-sub"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOLUBILITY RULES ===== -->
+<div id="solubility" class="page">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('main')">← 메인</button>
+    <span class="page-title">🧩 용해도 규칙 표</span>
+  </div>
+  <div class="container">
+    <div class="sol-lookup-row">
+      <select class="cselect" id="sol-lookup-cat" style="width:180px;margin-bottom:0">
+        <option value="">양이온 선택…</option>
+      </select>
+      <select class="cselect" id="sol-lookup-an" style="width:180px;margin-bottom:0">
+        <option value="">음이온 선택…</option>
+      </select>
+      <button class="cbtn" style="width:auto;padding:9px 20px;margin-top:0" onclick="solLookup()">조회</button>
+      <div id="sol-lookup-result" style="font-size:0.9em;padding:6px 12px;background:var(--card);border-radius:6px;border:1px solid var(--border);display:none"></div>
+    </div>
+    <div style="margin-bottom:8px;font-size:0.82em;color:var(--text3)">
+      <span style="display:inline-block;width:14px;height:14px;border-radius:2px;background:rgba(0,200,80,0.3);vertical-align:middle;margin-right:4px"></span>가용성(S)
+      <span style="display:inline-block;width:14px;height:14px;border-radius:2px;background:rgba(255,50,50,0.25);vertical-align:middle;margin:0 4px 0 12px"></span>불용성(I)
+      <span style="display:inline-block;width:14px;height:14px;border-radius:2px;background:rgba(255,200,0,0.2);vertical-align:middle;margin:0 4px 0 12px"></span>약간(sl)
+      <span style="display:inline-block;width:14px;height:14px;border-radius:2px;background:rgba(60,70,110,0.35);vertical-align:middle;margin:0 4px 0 12px"></span>N/A
+    </div>
+    <div class="sol-table-wrap"><table class="sol-tbl" id="sol-tbl"></table></div>
+    <h3 style="color:var(--neon);font-size:0.95em;margin-bottom:12px">용해도 규칙</h3>
+    <div class="sol-rule-grid" id="sol-rule-grid"></div>
+  </div>
+</div>
+
+<!-- ===== ELECTROCHEMISTRY ===== -->
+<div id="electrochemistry" class="page">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('main')">← 메인</button>
+    <span class="page-title">⚡ 전기화학</span>
+  </div>
+  <div class="container">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="ecTab('redox')">표준 환원 전위</button>
+      <button class="tab-btn" onclick="ecTab('cell')">전지 전위 계산</button>
+      <button class="tab-btn" onclick="ecTab('electrolysis')">전기분해</button>
+      <button class="tab-btn" onclick="ecTab('oxnum')">산화수 계산기</button>
+    </div>
+
+    <div id="ec-tab-redox" class="tab-content active">
+      <input class="redox-search" id="redox-search" placeholder="반응식 검색…" oninput="filterRedox()">
+      <div style="overflow-x:auto;max-height:500px;border:1px solid var(--border);border-radius:8px">
+        <table class="redox-tbl" id="redox-tbl">
+          <thead><tr><th style="width:70%">반쪽 반응 (환원)</th><th>E° (V)</th><th>분류</th></tr></thead>
+          <tbody id="redox-tbody"></tbody>
+        </table>
+      </div>
+      <div style="font-size:0.78em;color:var(--text3);margin-top:8px">클릭하여 전지 전위 계산에서 사용할 반쪽 반응 선택</div>
+    </div>
+
+    <div id="ec-tab-cell" class="tab-content">
+      <div style="max-width:700px">
+        <div class="redox-sel-boxes">
+          <div class="redox-sel-box">
+            <h4>음극 (환원, cathode)</h4>
+            <div class="redox-sel-label" id="cell-cathode-label">선택된 반응 없음</div>
+          </div>
+          <div class="redox-sel-box">
+            <h4>양극 (산화, anode)</h4>
+            <div class="redox-sel-label" id="cell-anode-label">선택된 반응 없음</div>
+          </div>
+        </div>
+        <div style="font-size:0.81em;color:var(--text3);margin-bottom:12px">※ 표준 환원 전위 탭에서 반응을 클릭하면 선택됩니다 (첫번째=음극, 두번째=양극)</div>
+        <div class="calc-row">
+          <div>
+            <label class="clabel">온도 T (K)</label>
+            <input class="cinput" id="cell-T" type="number" value="298" oninput="calcCell()">
+            <label class="clabel">이동 전자 수 n</label>
+            <input class="cinput" id="cell-n" type="number" value="2" oninput="calcCell()">
+          </div>
+          <div>
+            <label class="clabel">반응 지수 Q (ln Q용)</label>
+            <input class="cinput" id="cell-Q" type="number" value="1" step="any" oninput="calcCell()">
+            <button class="cbtn" onclick="calcCell()">계산</button>
+          </div>
+        </div>
+        <div class="cell-result" id="cell-result">
+          <div class="cell-result-main" id="cell-Ecell">E°cell = -</div>
+          <div class="cresult-sub" id="cell-sub"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ec-tab-electrolysis" class="tab-content">
+      <div style="max-width:560px">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:0.95em;margin-bottom:14px">패러데이 법칙 전기분해</h3>
+          <div class="calc-row">
+            <div>
+              <label class="clabel">전류 (A)</label>
+              <input class="cinput" id="el-I" type="number" placeholder="예: 2.0" oninput="calcElectrolysis()">
+              <label class="clabel">시간 단위</label>
+              <select class="cselect" id="el-unit" onchange="calcElectrolysis()"><option value="s">초 (s)</option><option value="h">시간 (h)</option></select>
+            </div>
+            <div>
+              <label class="clabel">시간 값</label>
+              <input class="cinput" id="el-t" type="number" placeholder="예: 3600" oninput="calcElectrolysis()">
+              <label class="clabel">석출 물질 몰 질량 (g/mol)</label>
+              <input class="cinput" id="el-mm" type="number" placeholder="예: 63.5 (Cu)" oninput="calcElectrolysis()">
+            </div>
+          </div>
+          <label class="clabel">이동 전자 수 n</label>
+          <input class="cinput" id="el-n" type="number" placeholder="예: 2 (Cu²⁺)" value="2" oninput="calcElectrolysis()">
+          <div class="cerr" id="el-err"></div>
+          <div class="electro-result" id="el-result">
+            <div class="electro-result-main" id="el-mass">-</div>
+            <div class="cresult-sub" id="el-sub"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ec-tab-oxnum" class="tab-content">
+      <div style="max-width:480px">
+        <div class="panel">
+          <h3 style="color:var(--neon);font-size:0.95em;margin-bottom:14px">산화수 계산기</h3>
+          <label class="clabel">화합물 입력 (예: KMnO4, H2SO4, Na2Cr2O7)</label>
+          <div style="display:flex;gap:10px">
+            <input class="cinput" id="ox-input" style="margin-bottom:0;flex:1" placeholder="화합물 입력…" onkeydown="if(event.key==='Enter')calcOxState()">
+            <button class="cbtn" style="width:auto;padding:10px 20px;margin-top:0" onclick="calcOxState()">계산</button>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0">
+            <button class="bal-ex-btn" onclick="setOx('KMnO4')">KMnO₄</button>
+            <button class="bal-ex-btn" onclick="setOx('H2SO4')">H₂SO₄</button>
+            <button class="bal-ex-btn" onclick="setOx('Na2Cr2O7')">Na₂Cr₂O₇</button>
+            <button class="bal-ex-btn" onclick="setOx('FeCl3')">FeCl₃</button>
+            <button class="bal-ex-btn" onclick="setOx('NO3')">NO₃⁻</button>
+            <button class="bal-ex-btn" onclick="setOx('Cr2O7')">Cr₂O₇²⁻</button>
+          </div>
+          <div class="cerr" id="ox-err"></div>
+          <div class="oxstate-result" id="ox-result">
+            <div style="font-size:0.82em;color:var(--text2);margin-bottom:8px" id="ox-formula-display"></div>
+            <div class="oxstate-chips" id="oxstate-chips"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FAVORITES OVERLAY ===== -->
+<div class="fav-float" id="fav-float" onclick="toggleFavPanel()" title="즐겨찾기" style="display:none">
+  ★<div class="fav-badge" id="fav-badge">0</div>
+</div>
+<div class="fav-panel" id="fav-panel">
+  <div class="fav-panel-head">
+    <span class="fav-panel-title">⭐ 즐겨찾기</span>
+    <button class="fav-del-btn" onclick="toggleFavPanel()" style="font-size:1.2em">×</button>
+  </div>
+  <div class="fav-tab-row">
+    <button class="tab-btn active" id="fav-tab-el" onclick="favTab('el')">원소</button>
+    <button class="tab-btn" id="fav-tab-mol" onclick="favTab('mol')">분자</button>
+  </div>
+  <div class="fav-body" id="fav-body-el">
+    <div class="fav-empty" id="fav-empty-el">저장된 원소가 없습니다</div>
+    <div id="fav-list-el"></div>
+    <button class="fav-clear-btn" id="fav-clear-el" onclick="clearFavs('el')" style="display:none">전체 삭제</button>
+  </div>
+  <div class="fav-body" id="fav-body-mol" style="display:none">
+    <div class="fav-empty" id="fav-empty-mol">저장된 분자가 없습니다</div>
+    <div id="fav-list-mol"></div>
+    <button class="fav-clear-btn" id="fav-clear-mol" onclick="clearFavs('mol')" style="display:none">전체 삭제</button>
+  </div>
+</div>
+
+<!-- ===== COMPARE PANEL ===== -->
+<div class="compare-panel" id="compare-panel">
+  <div class="compare-head">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span class="compare-title">⚖ 원소 비교</span>
+      <div class="compare-slots">
+        <span class="compare-slot" id="cmp-slot-a">A 선택 대기</span>
+        <span style="color:var(--text3)">vs</span>
+        <span class="compare-slot" id="cmp-slot-b">B 선택 대기</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="resetCompare()">초기화</button>
+      <button class="btn" onclick="closeCompare()">닫기</button>
+    </div>
+  </div>
+  <div class="compare-body"><table class="compare-table" id="compare-table"></table></div>
 </div>
 
 <script>
@@ -858,11 +1488,16 @@ const NUCCOLORS={H:'#ffffff',He:'#d9ffff',Li:'#cc80ff',Be:'#c2ff00',B:'#ffb5b5',
 // NAVIGATION
 // ============================================================
 const NAV_ITEMS=[
-  {id:'periodic',  icon:'🔬',label:'원소 주기율표'},
-  {id:'analyzer',  icon:'⚗', label:'분자 분석기'},
-  {id:'viewer',    icon:'🧬',label:'3D 분자 뷰어'},
-  {id:'ions',      icon:'⚡',label:'이온 탐색기'},
-  {id:'simulator', icon:'🧪',label:'반응 시뮬레이터'},
+  {id:'periodic',        icon:'🔬',label:'원소 주기율표'},
+  {id:'analyzer',        icon:'⚗', label:'분자 분석기'},
+  {id:'viewer',          icon:'🧬',label:'3D 분자 뷰어'},
+  {id:'ions',            icon:'⚡',label:'이온 탐색기'},
+  {id:'simulator',       icon:'🧪',label:'반응 시뮬레이터'},
+  {id:'lab-calc',        icon:'🧫',label:'실험실 계산기'},
+  {id:'balancer',        icon:'⚖️', label:'반응식 밸런서'},
+  {id:'acid-base',       icon:'🧴',label:'산-염기 계산기'},
+  {id:'solubility',      icon:'🧩',label:'용해도 규칙 표'},
+  {id:'electrochemistry',icon:'⚡',label:'전기화학'},
 ];
 
 function goTo(id){
@@ -879,6 +1514,12 @@ function goTo(id){
   if(id==='periodic') buildPeriodicTable();
   if(id==='ions') buildIonGrid();
   if(id==='simulator') setTimeout(onSimShow, 60);
+  if(id==='solubility') buildSolTable();
+  if(id==='electrochemistry') buildRedoxTable();
+  if(id==='acid-base') setTimeout(drawTitration, 80);
+  // Show/hide favorites float button
+  const ff=document.getElementById('fav-float');
+  if(ff) ff.style.display=(id==='main')?'none':'flex';
 }
 
 function initSidebars(){
@@ -995,18 +1636,38 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 // ============================================================
 function setFormula(f){document.getElementById('formula-input').value=f;analyzeFormula(f);}
 function analyzeFormula(raw){
+  const inp=document.getElementById('formula-input');
+  const inlineErr=document.getElementById('analyzer-inline-err');
+  const setErr=msg=>{
+    if(inp){inp.classList.add('fi-error');inp.classList.remove('fi-valid');}
+    if(inlineErr){inlineErr.textContent=msg;inlineErr.style.display='block';}
+    showAnalyzerError(msg);
+  };
+  const clearInline=()=>{
+    if(inp){inp.classList.remove('fi-error','fi-valid');}
+    if(inlineErr){inlineErr.style.display='none';}
+  };
   const f=raw.trim().replace(/\s/g,'');
-  if(!f){showPlaceholder();return;}
-  if(!/^[A-Za-z0-9()]+$/.test(f)){showAnalyzerError('유효하지 않은 문자가 포함되어 있습니다.');return;}
+  if(!f){clearInline();showPlaceholder();return;}
+  // Number-first check
+  if(/^\d/.test(f)){setErr('숫자로 시작할 수 없습니다. (예: H2O, 2H2O → H2O)');return;}
+  // Special chars
+  if(!/^[A-Za-z0-9()]+$/.test(f)){setErr('유효하지 않은 문자가 포함되어 있습니다. (영문자·숫자·괄호만 허용)');return;}
+  // Bracket mismatch
+  let depth=0;for(const c of f){if(c==='(')depth++;else if(c===')'){depth--;if(depth<0){setErr('괄호가 올바르지 않습니다. 닫는 괄호가 너무 많습니다.');return;}}}
+  if(depth!==0){setErr('괄호가 올바르지 않습니다. 여는 괄호가 닫히지 않았습니다.');return;}
+  if(inp){inp.classList.remove('fi-error');inp.classList.add('fi-valid');}
+  if(inlineErr) inlineErr.style.display='none';
   const data=MOLECULES[f];
   if(data){showResults(f,data);return;}
   const parsed=parseFormula(f);
-  if(!parsed||!Object.keys(parsed).length){showAnalyzerError('인식할 수 없는 분자식입니다. (예: H2O, CH4, CO2)');return;}
+  if(!parsed||!Object.keys(parsed).length){setErr('인식할 수 없는 분자식입니다. (예: H2O, CH4, CO2)');return;}
   const unknowns=Object.keys(parsed).filter(el=>!ATOMIC_MASSES[el]);
-  if(unknowns.length===Object.keys(parsed).length){showAnalyzerError(`알 수 없는 원소 기호: ${unknowns.join(', ')}`);return;}
+  if(unknowns.length>0&&unknowns.length===Object.keys(parsed).length){setErr(`알 수 없는 원소 기호: ${unknowns.join(', ')}`);return;}
+  if(unknowns.length>0){setErr(`다음 원소 기호를 찾을 수 없습니다: ${unknowns.join(', ')}`);return;}
   let mw=0;
   for(const[el,cnt] of Object.entries(parsed)) mw+=(ATOMIC_MASSES[el]||0)*cnt;
-  if(mw===0){showAnalyzerError('분자량 계산 불가. 원소 기호를 확인하세요.');return;}
+  if(mw===0){setErr('분자량 계산 불가. 원소 기호를 확인하세요.');return;}
   const comp={};
   for(const[el,cnt] of Object.entries(parsed)) if(ATOMIC_MASSES[el]) comp[el]=(ATOMIC_MASSES[el]||0)*cnt/mw*100;
   showResults(f,{name:f,mw,polarity:'분석 필요',dipole:'-',reason:'구조 데이터 없음 (직접 입력)',shape:'-',shapeEn:'-',angle:'-',hybrid:'-',iforce:'-',composition:comp});
@@ -1194,6 +1855,10 @@ function lm(rawName){
   document.getElementById('viewer-ph').style.display='none';
   document.getElementById('viewer-loading').style.display='block';
   initViewer();
+  const nameErr=document.getElementById('viewer-name-error');
+  if(nameErr) nameErr.style.display='none';
+  const displayName=rawName!==name?`${rawName} <span style="color:var(--text3);font-size:0.8em">(${name})</span>`:rawName;
+
   const applyMol=sdf=>{
     viewer3d.clear();
     viewer3d.addModel(sdf,'sdf');
@@ -1201,26 +1866,62 @@ function lm(rawName){
     viewer3d.zoomTo();
     viewer3d.render();
     document.getElementById('viewer-loading').style.display='none';
-    const displayName=rawName!==name?`${rawName} <span style="color:var(--text3);font-size:0.8em">(${name})</span>`:rawName;
     document.getElementById('viewer-mol-info').innerHTML=`<div style="color:var(--neon);font-weight:600;margin-bottom:6px">${displayName}</div><div style="color:var(--text2)">PubChem 3D 구조 로드 완료</div><div style="color:var(--text3);margin-top:6px;font-size:0.9em">드래그: 회전 | 스크롤: 확대/축소 | 우클릭: 이동</div>`;
     lastAtomSyms=parseSdfAtoms(sdf);
     if(currentStyle!=='ball') setViewStyle('ball');
     renderAtomLegend(lastAtomSyms);
   };
-  const nameErr=document.getElementById('viewer-name-error');
-  if(nameErr) nameErr.style.display='none';
+
+  const showViewerErr=msg=>{
+    document.getElementById('viewer-loading').style.display='none';
+    const rn=rawName.replace(/"/g,'&quot;');
+    const ph=document.getElementById('viewer-ph');
+    ph.style.display='block';
+    ph.innerHTML=`<div class="viewer-err-ui"><div class="ve-icon">🔌</div><div class="ve-msg">3D 구조를 불러올 수 없습니다</div><div class="ve-sub">PubChem 서버에 연결할 수 없거나<br>${msg}</div><a href="https://pubchem.ncbi.nlm.nih.gov/#query=${encodeURIComponent(name)}" target="_blank" class="btn" style="display:inline-block;margin-top:10px">PubChem에서 직접 보기</a><button class="btn" style="margin-top:8px;display:block;width:100%" onclick="lm('${rn}')">↺ 다시 시도</button></div>`;
+    if(nameErr){nameErr.style.display='block';nameErr.innerHTML='🔌 '+msg;}
+  };
+
   try{const c=sessionStorage.getItem(cacheKey);if(c){applyMol(c);return;}}catch(e){}
-  fetch(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/SDF?record_type=3d`)
-    .then(r=>{if(r.status===404)throw new Error('NOTFOUND');if(!r.ok)throw new Error('서버 오류 ('+r.status+')');return r.text();})
+
+  const fetchWithTimeout=(url,ms=8000)=>{
+    const ctrl=new AbortController();
+    const tid=setTimeout(()=>ctrl.abort(),ms);
+    return fetch(url,{signal:ctrl.signal}).finally(()=>clearTimeout(tid));
+  };
+
+  // Stage 1: 3D SDF
+  fetchWithTimeout(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/SDF?record_type=3d`)
+    .then(r=>{if(r.status===404)throw Object.assign(new Error('NOTFOUND'),{stage:1});if(!r.ok)throw Object.assign(new Error('HTTP '+r.status),{stage:1});return r.text();})
     .then(sdf=>{try{sessionStorage.setItem(cacheKey,sdf);}catch(e){}applyMol(sdf);})
     .catch(e=>{
-      document.getElementById('viewer-loading').style.display='none';
-      document.getElementById('viewer-ph').style.display='block';
-      const isNotFound=e.message==='NOTFOUND';
-      const displayErr=isNotFound?`"${rawName}" 분자를 찾을 수 없습니다<br><span style="font-size:0.88em;color:var(--text3)">영문명(aspirin, caffeine) 또는 화학식(H2O)을 사용하세요</span>`:e.message+'<br>잠시 후 다시 시도해보세요';
-      if(nameErr){nameErr.style.display='block';nameErr.innerHTML='⚠ '+displayErr;}
-      const rn=rawName.replace(/"/g,'&quot;');
-      document.getElementById('viewer-ph').innerHTML=`<div class="icon" style="color:var(--red)">⚠</div><div style="color:var(--red);margin-bottom:8px">${isNotFound?'"'+rawName+'" 을(를) 찾을 수 없습니다':'로드 실패'}</div><div style="font-size:0.8em;color:var(--text3)">${isNotFound?'다른 분자명으로 시도해보세요':e.message}</div><button class="btn" style="margin-top:12px;min-height:38px" onclick="lm('${rn}')">↺ 다시 시도</button>`;
+      if(e.name==='AbortError'||e.stage===1){
+        // Stage 2: 2D SDF fallback
+        fetchWithTimeout(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/SDF`)
+          .then(r=>{if(!r.ok)throw new Error('2D_FAIL');return r.text();})
+          .then(sdf=>{applyMol(sdf);})
+          .catch(()=>{
+            // Stage 3: JSON property info
+            fetchWithTimeout(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(name)}/JSON`)
+              .then(r=>{if(!r.ok)throw new Error('JSON_FAIL');return r.json();})
+              .then(j=>{
+                document.getElementById('viewer-loading').style.display='none';
+                const props=j?.PropertyTable?.Properties?.[0]||{};
+                const formula=props.MolecularFormula||'N/A';
+                const mw=props.MolecularWeight||'N/A';
+                const iupac=props.IUPACName||name;
+                document.getElementById('viewer-ph').style.display='block';
+                document.getElementById('viewer-ph').innerHTML=`<div style="text-align:center;padding:20px"><div style="font-size:2em;margin-bottom:8px">📋</div><div style="color:var(--neon);font-weight:600;margin-bottom:12px">${rawName}</div><div style="font-size:0.85em;color:var(--text2);line-height:1.9">분자식: ${formula}<br>분자량: ${mw} g/mol<br>IUPAC명: ${iupac}<br><span style="color:var(--text3);font-size:0.9em">3D 구조 없음 (데이터만 표시)</span></div></div>`;
+                document.getElementById('viewer-mol-info').innerHTML=`<div style="color:var(--neon);font-weight:600;margin-bottom:4px">${displayName}</div><div style="color:var(--text2);font-size:0.85em">분자식: ${formula} | MW: ${mw}</div>`;
+              })
+              .catch(()=>{
+                // Stage 4: Full error UI
+                const notFound=e.message==='NOTFOUND';
+                showViewerErr(notFound?`"${rawName}" 분자를 찾을 수 없습니다. 영문명 또는 화학식을 사용하세요.`:'네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+              });
+          });
+      } else {
+        showViewerErr(e.message==='NOTFOUND'?`"${rawName}" 분자를 찾을 수 없습니다. 영문명(aspirin)이나 화학식(H2O)을 사용하세요.`:'서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      }
     });
 }
 
@@ -1659,7 +2360,7 @@ function selectSimRxn(id){
   document.querySelectorAll('.sim-pbtn').forEach(b=>b.classList.toggle('active',b.dataset.rxn===id));
   document.getElementById('sim-eq-input').value=curRxn.eq;
   updateSimInfo();updateEChart();updateCChart();
-  resetSim();
+  updateSimDisplay(curRxn.eq);
 }
 
 function updateSimInfo(){
@@ -1763,21 +2464,224 @@ function parseCF(f){
   while((m=re.exec(f))!==null)if(m[1])r[m[1]]=(r[m[1]]||0)+(parseInt(m[2])||1);
   return r;
 }
+
+// ===== FORMULA NORMALIZATION (소문자 → 대문자) =====
+const NORM_TABLE={
+  // Common formulas people type lowercase
+  'h2':'H2','o2':'O2','n2':'N2','co2':'CO2','h2o':'H2O','hcl':'HCl','naoh':'NaOH',
+  'h2so4':'H2SO4','hno3':'HNO3','h3po4':'H3PO4','h2co3':'H2CO3','ch4':'CH4',
+  'c2h6':'C2H6','c3h8':'C3H8','c4h10':'C4H10','c2h4':'C2H4','c2h2':'C2H2',
+  'c6h6':'C6H6','c6h12o6':'C6H12O6','ch3oh':'CH3OH','c2h5oh':'C2H5OH',
+  'nh3':'NH3','no':'NO','no2':'NO2','n2o':'N2O','so2':'SO2','so3':'SO3',
+  'h2s':'H2S','co':'CO','cl2':'Cl2','f2':'F2','br2':'Br2','i2':'I2',
+  'nacl':'NaCl','na2o':'Na2O','na2co3':'Na2CO3','nahco3':'NaHCO3',
+  'koh':'KOH','kcl':'KCl','k2o':'K2O','k2co3':'K2CO3',
+  'cao':'CaO','ca(oh)2':'Ca(OH)2','cacl2':'CaCl2','caco3':'CaCO3',
+  'mgcl2':'MgCl2','mgo':'MgO','mg(oh)2':'Mg(OH)2',
+  'alcl3':'AlCl3','al2o3':'Al2O3','al(oh)3':'Al(OH)3',
+  'fecl2':'FeCl2','fecl3':'FeCl3','fe2o3':'Fe2O3','fe3o4':'Fe3O4',
+  'cuso4':'CuSO4','cuo':'CuO','cu2o':'Cu2O',
+  'znso4':'ZnSO4','zno':'ZnO','zncl2':'ZnCl2',
+  'agno3':'AgNO3','agcl':'AgCl','ag2o':'Ag2O',
+  'baso4':'BaSO4','bacl2':'BaCl2','ba(oh)2':'Ba(OH)2',
+  'pbso4':'PbSO4','pbcl2':'PbCl2','pbo':'PbO','pbo2':'PbO2',
+  'mn':'Mn','mno2':'MnO2','kmno4':'KMnO4','k2cr2o7':'K2Cr2O7',
+  'fe':'Fe','cu':'Cu','zn':'Zn','al':'Al','mg':'Mg','ca':'Ca',
+  'na':'Na','k':'K','ag':'Ag','pb':'Pb','sn':'Sn','ni':'Ni',
+  'cr':'Cr','co':'Co','si':'Si','p':'P','s':'S','c':'C',
+  'nh4cl':'NH4Cl','nh4oh':'NH4OH','nh4no3':'NH4NO3','nh4hco3':'NH4HCO3',
+  'bacl2':'BaCl2','na2so4':'Na2SO4','caco3':'CaCO3','feso4':'FeSO4',
+  'fe2(so4)3':'Fe2(SO4)3','al2(so4)3':'Al2(SO4)3',
+  'h2o2':'H2O2','kno3':'KNO3','nano3':'NaNO3','ca3(po4)2':'Ca3(PO4)2',
+  'na3po4':'Na3PO4','k3po4':'K3PO4','k2so4':'K2SO4','na2s':'Na2S',
+  'fes':'FeS','fes2':'FeS2','cus':'CuS','zns':'ZnS',
+  'hclo4':'HClO4','hclo3':'HClO3','hclo2':'HClO2','hclo':'HClO',
+  'hbr':'HBr','hi':'HI','hf':'HF',
+  'sio2':'SiO2','p4':'P4','s8':'S8',
+  'c':'C','n2h4':'N2H4','h2o2':'H2O2',
+};
+function normFormula(raw){
+  // Tokenize: optional digits, then formula token
+  const tok=raw.trim();
+  const lk=tok.toLowerCase();
+  if(NORM_TABLE[lk])return tok.replace(/[a-zA-Z()]+\d*/g,'')+NORM_TABLE[lk]; // preserve leading coef
+  // Try to title-case each element symbol using regex
+  return tok.replace(/([A-Za-z][a-z]*)(\d*)/g,(m,sym,num)=>{
+    const up=sym.charAt(0).toUpperCase()+sym.slice(1).toLowerCase();
+    return up+num;
+  });
+}
+function normTerm(t){
+  // t like "2ch4" or "ch4" or "2CH4"
+  const m=t.trim().match(/^(\d*)(.*)/);
+  const coef=m[1]||'';
+  const rest=m[2];
+  const lk=rest.toLowerCase();
+  const normed=NORM_TABLE[lk]||rest.replace(/([A-Za-z][a-z]*)(\d*)/g,(mm,sym,num)=>{
+    return sym.charAt(0).toUpperCase()+sym.slice(1).toLowerCase()+num;
+  });
+  return coef+normed;
+}
+function normEqStr(str){
+  // Normalize entire equation string (both sides)
+  return str.replace(/[⇌→⟶]/g,'->').split('->').map(side=>
+    side.split('+').map(t=>normTerm(t.trim())).join(' + ')
+  ).join(' -> ');
+}
+
+// ===== PRODUCT PREDICTION =====
+function predictProducts(reactants){
+  // reactants: array of formula strings (already normalized, no coefficients)
+  const r=reactants.map(s=>s.trim());
+  const has=f=>r.some(s=>s===f);
+  const hasEl=el=>r.some(f=>{const cf=parseCF(f);return (cf[el]||0)>0;});
+
+  // H2 + O2 → H2O
+  if(has('H2')&&has('O2'))return['H2 + O2','H2O'];
+  // Hydrocarbon combustion: CxHy + O2 → CO2 + H2O
+  const hc=r.find(f=>{const cf=parseCF(f);return cf.C&&cf.H&&Object.keys(cf).length<=2;});
+  if(hc&&has('O2'))return[r.join(' + '),'CO2 + H2O'];
+  // Alcohol combustion: CxHyOz + O2 → CO2 + H2O
+  const alc=r.find(f=>{const cf=parseCF(f);return cf.C&&cf.H&&cf.O&&Object.keys(cf).length===3;});
+  if(alc&&has('O2'))return[r.join(' + '),'CO2 + H2O'];
+  // N2 + H2 → NH3
+  if(has('N2')&&has('H2'))return['N2 + H2','NH3'];
+  // Acid + base neutralization
+  const acids={HCl:1,HBr:1,HI:1,HF:1,HNO3:1,H2SO4:1,H3PO4:1,H2CO3:1,HClO4:1,HClO3:1,H2S:1,H2O2:0};
+  const bases={NaOH:1,KOH:1,'Ca(OH)2':1,'Mg(OH)2':1,'Al(OH)3':1,'Fe(OH)2':1,'Fe(OH)3':1,'Ba(OH)2':1,NH3:1,NH4OH:1};
+  const acid=r.find(f=>acids[f]===1);
+  const base=r.find(f=>bases[f]===1);
+  if(acid&&base){const salt=predictSalt(acid,base);return[r.join(' + '),salt+' + H2O'];}
+  // Metal + O2 → metal oxide
+  const metals={Fe:1,Cu:1,Al:1,Mg:1,Zn:1,Ca:1,Na:1,K:1,Pb:1,Sn:1,Ni:1,Mn:1};
+  const metal=r.find(f=>metals[f]);
+  if(metal&&has('O2')){
+    const oxides={Fe:'Fe2O3',Cu:'CuO',Al:'Al2O3',Mg:'MgO',Zn:'ZnO',Ca:'CaO',Na:'Na2O',K:'K2O',Pb:'PbO',Sn:'SnO2',Ni:'NiO',Mn:'MnO2'};
+    return[r.join(' + '),oxides[metal]||metal+'O'];
+  }
+  // Metal + water → metal hydroxide + H2
+  if(metal&&has('H2O')&&['Na','K','Ca','Mg'].includes(metal)){
+    const hydr={Na:'NaOH',K:'KOH',Ca:'Ca(OH)2',Mg:'Mg(OH)2'};
+    return[r.join(' + '),(hydr[metal]||metal+'(OH)')+ ' + H2'];
+  }
+  // Metal + acid → salt + H2
+  if(metal&&acid){
+    const salts={
+      'Fe+HCl':'FeCl2','Cu+HCl':null,'Al+HCl':'AlCl3','Mg+HCl':'MgCl2','Zn+HCl':'ZnCl2',
+      'Fe+H2SO4':'FeSO4','Al+H2SO4':'Al2(SO4)3','Mg+H2SO4':'MgSO4','Zn+H2SO4':'ZnSO4',
+      'Fe+HNO3':'Fe(NO3)3','Al+HNO3':'Al(NO3)3','Mg+HNO3':'Mg(NO3)2','Zn+HNO3':'Zn(NO3)2',
+    };
+    const saltKey=metal+'+'+acid;
+    const salt=salts[saltKey];
+    if(salt)return[r.join(' + '),salt+' + H2'];
+  }
+  // Metal oxide + acid → salt + H2O
+  const mox=r.find(f=>/^[A-Z][a-z]?O\d*$|^[A-Z][a-z]?\d*O\d+$/.test(f)&&acid);
+  if(mox&&acid)return[r.join(' + '),'(salt) + H2O'];
+  // Decomposition: H2O2 → H2O + O2
+  if(has('H2O2')&&r.length===1)return['H2O2','H2O + O2'];
+  // CaCO3 → CaO + CO2
+  if(has('CaCO3')&&r.length===1)return['CaCO3','CaO + CO2'];
+  // Metal carbonate + acid → salt + H2O + CO2
+  const carbonates={Na2CO3:'Na',K2CO3:'K',CaCO3:'Ca',MgCO3:'Mg',BaCO3:'Ba'};
+  const carb=r.find(f=>carbonates[f]);
+  if(carb&&acid){
+    const saltMap={'Na2CO3+HCl':'NaCl','K2CO3+HCl':'KCl','CaCO3+HCl':'CaCl2','Na2CO3+H2SO4':'Na2SO4','CaCO3+H2SO4':'CaSO4'};
+    const sk=carb+'+'+acid;
+    const salt2=saltMap[sk]||'(salt)';
+    return[r.join(' + '),salt2+' + H2O + CO2'];
+  }
+  return null; // unknown
+}
+function predictSalt(acid,base){
+  const anions={HCl:'Cl',HBr:'Br',HI:'I',HF:'F',HNO3:'NO3',H2SO4:'SO4',H3PO4:'PO4',H2CO3:'CO3',HClO4:'ClO4',HClO3:'ClO3',H2S:'S'};
+  const cations={NaOH:'Na',KOH:'K','Ca(OH)2':'Ca','Mg(OH)2':'Mg','Al(OH)3':'Al','Fe(OH)2':'Fe','Fe(OH)3':'Fe','Ba(OH)2':'Ba',NH3:'NH4',NH4OH:'NH4'};
+  const an=anions[acid]||'X',cat=cations[base]||'Y';
+  const known={
+    'Na+Cl':'NaCl','Na+NO3':'NaNO3','Na+SO4':'Na2SO4','Na+CO3':'Na2CO3','Na+PO4':'Na3PO4',
+    'K+Cl':'KCl','K+NO3':'KNO3','K+SO4':'K2SO4',
+    'Ca+Cl':'CaCl2','Ca+NO3':'Ca(NO3)2','Ca+SO4':'CaSO4','Ca+CO3':'CaCO3',
+    'Mg+Cl':'MgCl2','Mg+NO3':'Mg(NO3)2','Mg+SO4':'MgSO4',
+    'Al+Cl':'AlCl3','Al+NO3':'Al(NO3)3','Al+SO4':'Al2(SO4)3',
+    'Fe+Cl':'FeCl2','Fe+NO3':'Fe(NO3)2','Fe+SO4':'FeSO4',
+    'Ba+Cl':'BaCl2','Ba+NO3':'Ba(NO3)2','Ba+SO4':'BaSO4',
+    'NH4+Cl':'NH4Cl','NH4+NO3':'NH4NO3','NH4+SO4':'(NH4)2SO4',
+  };
+  return known[cat+'+'+an]||cat+an;
+}
+
+// ===== STATIC REACTION DISPLAY =====
+function updateSimDisplay(eqStr){
+  const box=document.getElementById('sim-rxn-display');
+  const inner=document.getElementById('sim-rxn-inner');
+  if(!inner)return;
+  if(!eqStr||!eqStr.trim()){
+    inner.innerHTML='<span class="sim-rxn-empty">반응식을 입력하거나 아래 프리셋을 선택하세요.</span>';
+    if(box)box.classList.remove('active');
+    return;
+  }
+  // Parse sides
+  const norm=eqStr.replace(/[⇌→⟶]/g,'->');
+  const isEquil=eqStr.includes('⇌');
+  const sides=norm.split('->');
+  if(sides.length<2){inner.innerHTML='<span class="sim-rxn-empty">반응식 형식 오류</span>';return;}
+  const parseSide=s=>s.trim().split('+').map(t=>{
+    const m=t.trim().match(/^(\d+)?\s*(.+)$/);
+    return m?{c:m[1]||'',f:m[2].trim()}:{c:'',f:t.trim()};
+  }).filter(x=>x.f);
+  const R=parseSide(sides[0]);
+  const P=parseSide(sides[1]);
+  const renderTerms=arr=>arr.map((t,i)=>{
+    return (i>0?'<span class="sim-rxn-plus">+</span>':'')+
+      `<span class="sim-rxn-term">${t.c?`<span class="sim-rxn-coef">${t.c}</span>`:''}${t.f}</span>`;
+  }).join('');
+  inner.innerHTML=renderTerms(R)+
+    `<span class="sim-rxn-arrow">${isEquil?'⇌':'→'}</span>`+
+    renderTerms(P);
+  if(box)box.classList.add('active');
+}
+
 function doBalance(){
   const inp=document.getElementById('sim-eq-input');const val=inp.value.trim();
   const err=document.getElementById('sim-err');
   if(!val){if(err){err.style.display='block';err.textContent='반응식을 입력하세요.';}return;}
-  const norm=val.replace(/[⇌→⟶]/g,'->').replace(/\s+/g,'');
-  const sides=norm.split('->');
-  if(sides.length!==2){if(err){err.style.display='block';err.textContent='반응식 형식 오류. 화살표(-> 또는 →)를 포함하세요.';}return;}
-  const ps=s=>s.split('+').map(t=>{const m=t.match(/^(\d*)([A-Za-z0-9]+)$/);return m?{c:parseInt(m[1])||1,f:m[2]}:null;}).filter(Boolean);
+
+  // Normalize: handle lowercase formulas, arrow variants
+  let working=val.replace(/[⇌→⟶]/g,'->');
+  const isEquil=val.includes('⇌');
+  const hasSep=working.includes('->');
+
+  // Auto-capitalize each token
+  working=working.split('->').map(side=>
+    side.split('+').map(t=>normTerm(t.trim())).join('+')
+  ).join('->');
+
+  // If no arrow (reactants only), try to predict products
+  if(!hasSep){
+    const reactants=working.split('+').map(t=>{
+      const m=t.trim().match(/^(\d*)(.*)/);
+      return(m&&m[2])||t.trim();
+    }).filter(Boolean);
+    const pred=predictProducts(reactants);
+    if(pred){
+      working=pred[0].replace(/\s/g,'').split('+').map(t=>normTerm(t)).join('+')+
+               '->'+pred[1].replace(/\s/g,'').split('+').map(t=>normTerm(t)).join('+');
+    } else {
+      if(err){err.style.display='block';err.textContent='생성물을 예측할 수 없습니다. 화살표(->)와 함께 전체 반응식을 입력하세요.';}
+      updateSimDisplay('');
+      return;
+    }
+  }
+
+  const sides=working.split('->');
+  if(sides.length!==2){if(err){err.style.display='block';err.textContent='반응식 형식 오류.';}return;}
+  const ps=s=>s.split('+').map(t=>{const m=t.match(/^(\d*)([A-Z][A-Za-z0-9()]*)/);return m?{c:parseInt(m[1])||1,f:m[2]}:null;}).filter(Boolean);
   const R=ps(sides[0]),P=ps(sides[1]);
   if(!R.length||!P.length){if(err){err.style.display='block';err.textContent='반응물 또는 생성물을 인식할 수 없습니다.';}return;}
   const all=[...R.map(r=>({...r,s:1})),...P.map(p=>({...p,s:-1}))];
   const els=new Set();all.forEach(m=>{Object.keys(parseCF(m.f)).forEach(e=>els.add(e));});
   const elA=[...els];const n=all.length,mR=elA.length;
   let mat=elA.map(el=>all.map((m,i)=>m.s*(parseCF(m.f)[el]||0)));
-  // Gaussian: set last variable=1, solve remaining
   let A=mat.map(row=>[...row.slice(0,n-1),-row[n-1]]);
   const pivots=[];let row=0;
   for(let c=0;c<n-1&&row<mR;c++){
@@ -1796,15 +2700,14 @@ function doBalance(){
   const ok=elA.every(el=>{const sm=all.reduce((a,m,i)=>a+m.s*co[i]*(parseCF(m.f)[el]||0),0);return Math.abs(sm)<0.5;});
   if(!ok){if(err){err.style.display='block';err.textContent='균형 맞추기 실패. 더 복잡한 반응식입니다.';}return;}
   const fmt=(arr,off)=>arr.map((m,i)=>{const c=co[i+off];return(c===1?'':c)+m.f;}).join(' + ');
-  const arrow=val.includes('⇌')?' ⇌ ':' → ';
-  inp.value=fmt(R,0)+arrow+fmt(P,R.length);
+  const arrow=isEquil?' ⇌ ':' → ';
+  const balanced=fmt(R,0)+arrow+fmt(P,R.length);
+  inp.value=balanced;
   if(err)err.style.display='none';
+  updateSimDisplay(balanced);
 }
 
 function onSimShow(){
-  const cv=document.getElementById('sim-canvas');
-  if(!cv)return;
-  cv.width=cv.parentElement.clientWidth||760;cv.height=260;
   if(!simInited){
     simInited=true;
     document.getElementById('sim-temp').addEventListener('input',function(){
@@ -1822,11 +2725,883 @@ function onSimShow(){
     });
     selectSimRxn('h2burn');
   } else {
-    drawSim();
+    updateSimDisplay(document.getElementById('sim-eq-input').value||curRxn.eq);
   }
 }
 
+// ============================================================
+// FAVORITES
+// ============================================================
+function getFavs(type){try{return JSON.parse(localStorage.getItem('chem_favorites_'+type)||'[]');}catch(e){return[];}}
+function setFavs(type,arr){try{localStorage.setItem('chem_favorites_'+type,JSON.stringify(arr));}catch(e){}}
+function countFavs(){return getFavs('elements').length+getFavs('molecules').length;}
+function updateFavBadge(){
+  const n=countFavs();
+  const badge=document.getElementById('fav-badge');
+  if(badge){badge.textContent=n;badge.style.display=n>0?'flex':'none';}
+}
+let currentFavTab='el';
+function favTab(t){
+  currentFavTab=t;
+  ['el','mol'].forEach(k=>{
+    document.getElementById('fav-tab-'+k).classList.toggle('active',k===t);
+    document.getElementById('fav-body-'+k).style.display=k===t?'block':'none';
+  });
+  renderFavList(t);
+}
+function renderFavList(t){
+  const isEl=t==='el';
+  const key=isEl?'elements':'molecules';
+  const items=getFavs(key);
+  const listEl=document.getElementById('fav-list-'+(isEl?'el':'mol'));
+  const emptyEl=document.getElementById('fav-empty-'+(isEl?'el':'mol'));
+  const clearBtn=document.getElementById('fav-clear-'+(isEl?'el':'mol'));
+  if(!listEl) return;
+  if(items.length===0){emptyEl.style.display='block';listEl.innerHTML='';clearBtn.style.display='none';return;}
+  emptyEl.style.display='none';clearBtn.style.display='block';
+  listEl.innerHTML=items.map((item,i)=>`
+    <div class="fav-item" onclick="${isEl?`openFavElement(${i})`:`openFavMolecule(${i})`}">
+      <div class="fav-item-info">
+        <div class="fav-item-main">${isEl?item.symbol+' — '+item.name:item.formula}</div>
+        <div class="fav-item-sub">${isEl?'원자번호 '+item.atomicNumber:item.name+(item.molecularWeight?' · '+item.molecularWeight+' g/mol':'')}</div>
+      </div>
+      <button class="fav-del-btn" onclick="event.stopPropagation();deleteFav('${key}',${i})">×</button>
+    </div>`).join('');
+}
+function toggleFavPanel(){
+  const p=document.getElementById('fav-panel');
+  const isOpen=p.classList.toggle('open');
+  if(isOpen) renderFavList(currentFavTab);
+}
+function deleteFav(key,idx){
+  const arr=getFavs(key);arr.splice(idx,1);setFavs(key,arr);
+  updateFavBadge();
+  renderFavList(currentFavTab==='el'?'el':'mol');
+  updateModalFavBtn();updateAnalyzerFavBtn();
+}
+function clearFavs(t){
+  const key=t==='el'?'elements':'molecules';
+  setFavs(key,[]);updateFavBadge();renderFavList(t);
+  updateModalFavBtn();updateAnalyzerFavBtn();
+}
+function openFavElement(idx){
+  const items=getFavs('elements');
+  if(items[idx]){toggleFavPanel();goTo('periodic');setTimeout(()=>openElementModal(items[idx].atomicNumber),300);}
+}
+function openFavMolecule(idx){
+  const items=getFavs('molecules');
+  if(items[idx]){toggleFavPanel();goTo('analyzer');setTimeout(()=>setFormula(items[idx].formula),300);}
+}
+
+let currentModalEl=null;
+function updateModalFavBtn(){
+  const btn=document.getElementById('m-fav-btn');
+  if(!btn||!currentModalEl) return;
+  const favs=getFavs('elements');
+  const isFav=favs.some(f=>f.atomicNumber===currentModalEl[0]);
+  btn.textContent=isFav?'★':'☆';btn.classList.toggle('starred',isFav);
+}
+function toggleFavElement(){
+  if(!currentModalEl) return;
+  const [num,sym,name]=currentModalEl;
+  const favs=getFavs('elements');
+  const idx=favs.findIndex(f=>f.atomicNumber===num);
+  if(idx>=0) favs.splice(idx,1);
+  else favs.push({symbol:sym,name,atomicNumber:num});
+  setFavs('elements',favs);updateFavBadge();updateModalFavBtn();
+}
+
+let currentAnalyzerFormula='';
+function updateAnalyzerFavBtn(){
+  const btn=document.getElementById('r-fav-btn');
+  if(!btn||!currentAnalyzerFormula) return;
+  const favs=getFavs('molecules');
+  const isFav=favs.some(f=>f.formula===currentAnalyzerFormula);
+  btn.textContent=isFav?'★':'☆';btn.classList.toggle('starred',isFav);
+}
+function toggleFavMolecule(){
+  if(!currentAnalyzerFormula) return;
+  const mwEl=document.getElementById('r-mw');
+  const mw=mwEl?parseFloat(mwEl.textContent):null;
+  const favs=getFavs('molecules');
+  const idx=favs.findIndex(f=>f.formula===currentAnalyzerFormula);
+  if(idx>=0) favs.splice(idx,1);
+  else favs.push({formula:currentAnalyzerFormula,name:currentAnalyzerFormula,molecularWeight:mw?mw.toFixed(2):''});
+  setFavs('molecules',favs);updateFavBadge();updateAnalyzerFavBtn();
+}
+
+// Patch openElementModal to track current element
+const _origOpenElementModal=openElementModal;
+openElementModal=function(num){
+  currentModalEl=ELEMENTS.find(e=>e[0]===num)||null;
+  _origOpenElementModal(num);
+  updateModalFavBtn();
+};
+
+// Patch showResults to track current formula
+const _origShowResults=showResults;
+showResults=function(f,d){
+  currentAnalyzerFormula=f;
+  _origShowResults(f,d);
+  updateAnalyzerFavBtn();
+};
+
+// ============================================================
+// ELEMENT COMPARE
+// ============================================================
+let compareMode=false;
+let compareSelected=[];
+
+function toggleCompareMode(){
+  compareMode=!compareMode;
+  const btn=document.getElementById('btn-compare-mode');
+  const hint=document.getElementById('compare-hint');
+  if(compareMode){
+    btn.classList.add('active');
+    if(hint) hint.style.display='block';
+  } else {
+    btn.classList.remove('active');
+    if(hint) hint.style.display='none';
+    resetCompare();
+  }
+}
+
+function closeCompare(){
+  document.getElementById('compare-panel').classList.remove('open');
+}
+
+function resetCompare(){
+  compareSelected=[];
+  document.querySelectorAll('.element-cell.compare-selected').forEach(c=>c.classList.remove('compare-selected'));
+  document.getElementById('cmp-slot-a').textContent='A 선택 대기';
+  document.getElementById('cmp-slot-a').classList.remove('filled');
+  document.getElementById('cmp-slot-b').textContent='B 선택 대기';
+  document.getElementById('cmp-slot-b').classList.remove('filled');
+  document.getElementById('compare-panel').classList.remove('open');
+}
+
+const COMPARE_PROPS=[
+  {key:'num',   label:'원자번호',     fmt:v=>v,           isNum:true, max:118},
+  {key:'mass',  label:'원자량',       fmt:v=>v+' u',     isNum:true, max:300},
+  {key:'en',    label:'전기음성도',   fmt:v=>v||'없음',  isNum:true, max:4.0},
+  {key:'ar',    label:'원자 반지름',  fmt:v=>v?v+' pm':'없음', isNum:true, max:300},
+  {key:'ie',    label:'이온화 에너지',fmt:v=>v+' kJ/mol',isNum:true, max:2400},
+  {key:'ea',    label:'전자 친화도',  fmt:v=>v+' kJ/mol',isNum:false},
+  {key:'state', label:'상온 상태',    fmt:v=>v,          isNum:false},
+  {key:'cat',   label:'분류',         fmt:v=>CAT_NAMES[v]||v, isNum:false},
+  {key:'period',label:'주기',         fmt:v=>v+'주기',   isNum:true, max:7},
+  {key:'ec',    label:'전자 배치',    fmt:v=>v,          isNum:false},
+];
+
+function compareElements(a,b){
+  const getProps=el=>({
+    num:el[0],sym:el[1],name:el[2],mass:el[3],en:el[4],cat:el[5],
+    period:el[6],group:el[7],state:el[8],ec:el[9],ar:el[10],ie:el[11],ea:el[12]
+  });
+  const pa=getProps(a), pb=getProps(b);
+  const rows=COMPARE_PROPS.map(p=>{
+    const va=pa[p.key], vb=pb[p.key];
+    let barA='', barB='';
+    if(p.isNum&&typeof va==='number'&&typeof vb==='number'&&p.max){
+      const pctA=Math.round(Math.max(va,0)/p.max*100);
+      const pctB=Math.round(Math.max(vb,0)/p.max*100);
+      barA=`<span class="compare-bar" style="width:${pctA}px"></span>`;
+      barB=`<span class="compare-bar" style="background:#4488ff;width:${pctB}px"></span>`;
+    }
+    return `<tr><td class="prop-col">${p.label}</td><td>${p.fmt(va)}${barA}</td><td>${p.fmt(vb)}${barB}</td></tr>`;
+  }).join('');
+  const tbl=document.getElementById('compare-table');
+  tbl.innerHTML=`<thead><tr><th class="prop-col">속성</th><th class="el-col" style="color:var(--neon)">${pa.sym} ${pa.name}</th><th class="el-col" style="color:#4488ff">${pb.sym} ${pb.name}</th></tr></thead><tbody>${rows}</tbody>`;
+  document.getElementById('compare-panel').classList.add('open');
+}
+
+// Patch buildPeriodicTable click to support compare mode
+const _origBuildPT=buildPeriodicTable;
+buildPeriodicTable=function(){
+  _origBuildPT();
+  // Re-attach click with compare awareness
+  document.getElementById('pt-grid').querySelectorAll('.element-cell').forEach(cell=>{
+    cell.onclick=()=>{
+      const num=parseInt(cell.dataset.num);
+      if(!compareMode){openElementModal(num);return;}
+      const el=ELEMENTS.find(e=>e[0]===num);
+      if(!el) return;
+      const existIdx=compareSelected.findIndex(e=>e[0]===num);
+      if(existIdx>=0){
+        // deselect
+        compareSelected.splice(existIdx,1);
+        cell.classList.remove('compare-selected');
+      } else if(compareSelected.length<2){
+        compareSelected.push(el);
+        cell.classList.add('compare-selected');
+      }
+      const sa=document.getElementById('cmp-slot-a');
+      const sb=document.getElementById('cmp-slot-b');
+      if(compareSelected[0]){sa.textContent=compareSelected[0][1]+' '+compareSelected[0][2];sa.classList.add('filled');}
+      else{sa.textContent='A 선택 대기';sa.classList.remove('filled');}
+      if(compareSelected[1]){sb.textContent=compareSelected[1][1]+' '+compareSelected[1][2];sb.classList.add('filled');}
+      else{sb.textContent='B 선택 대기';sb.classList.remove('filled');}
+      if(compareSelected.length===2) compareElements(compareSelected[0],compareSelected[1]);
+    };
+  });
+};
+
+// ============================================================
+// LAB CALCULATOR
+// ============================================================
+function labTab(t){
+  ['molarity','dilution','yield'].forEach(k=>{
+    document.getElementById('lab-tab-'+k).classList.toggle('active',k===t);
+  });
+  document.querySelectorAll('#lab-calc .tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['molarity','dilution','yield'][i]===t);
+  });
+}
+
+function calcMolarity(){
+  const mass=parseFloat(document.getElementById('mol-mass').value);
+  const mm=parseFloat(document.getElementById('mol-mm').value);
+  const vol=parseFloat(document.getElementById('mol-vol').value);
+  const err=document.getElementById('mol-err');
+  const res=document.getElementById('mol-result');
+  if(!mass||!mm||!vol){res.style.display='none';err.style.display='none';return;}
+  if(mm<=0||vol<=0){err.textContent='몰 질량과 부피는 양수여야 합니다.';err.style.display='block';res.style.display='none';return;}
+  err.style.display='none';
+  const n=mass/mm;
+  const M=n/vol;
+  document.getElementById('mol-M').textContent=M.toFixed(4)+' M';
+  document.getElementById('mol-sub').innerHTML=`몰 수: ${n.toFixed(4)} mol<br>몰 질량: ${mm} g/mol<br>부피: ${vol} L`;
+  res.style.display='block';
+}
+function calcMolarityRev(){
+  const M=parseFloat(document.getElementById('mol-tgt-M').value);
+  const mm=parseFloat(document.getElementById('mol-tgt-mm').value);
+  const vol=parseFloat(document.getElementById('mol-tgt-vol').value);
+  const res=document.getElementById('mol-rev-result');
+  if(!M||!mm||!vol){res.style.display='none';return;}
+  const n=M*vol;
+  const mass=n*mm;
+  document.getElementById('mol-rev-mass').textContent=mass.toFixed(4)+' g';
+  document.getElementById('mol-rev-sub').innerHTML=`필요 몰 수: ${n.toFixed(4)} mol<br>목표 농도: ${M} M, 부피: ${vol} L`;
+  res.style.display='block';
+}
+
+const UNIT_SCALE={M:1,mM:1e-3,'μM':1e-6};
+function calcDilution(){
+  const c1val=parseFloat(document.getElementById('dil-c1').value);
+  const u1=document.getElementById('dil-u1').value;
+  const v1=parseFloat(document.getElementById('dil-v1').value);
+  const c2val=parseFloat(document.getElementById('dil-c2').value);
+  const u2=document.getElementById('dil-u2').value;
+  const err=document.getElementById('dil-err');
+  const res=document.getElementById('dil-result');
+  if(!c1val||!v1||!c2val){res.style.display='none';err.style.display='none';return;}
+  const c1=c1val*(UNIT_SCALE[u1]||1);
+  const c2=c2val*(UNIT_SCALE[u2]||1);
+  if(c2>=c1){err.textContent='목표 농도는 초기 농도보다 작아야 합니다.';err.style.display='block';res.style.display='none';return;}
+  err.style.display='none';
+  const v2_mL=c1*v1/c2;
+  const addWater=v2_mL-v1;
+  document.getElementById('dil-v2').textContent='최종 부피: '+v2_mL.toFixed(2)+' mL';
+  document.getElementById('dil-sub').innerHTML=`첨가할 물: ${addWater.toFixed(2)} mL<br>C₁V₁ = ${(c1*1000).toFixed(4)} mM·mL = C₂V₂`;
+  res.style.display='block';
+}
+
+function calcYield(){
+  const reactant=parseFloat(document.getElementById('yld-reactant').value);
+  const rmm=parseFloat(document.getElementById('yld-rmm').value);
+  const ratio=parseFloat(document.getElementById('yld-ratio').value)||1;
+  const pmm=parseFloat(document.getElementById('yld-pmm').value);
+  const actual=parseFloat(document.getElementById('yld-actual').value);
+  const err=document.getElementById('yld-err');
+  const res=document.getElementById('yld-result');
+  if(!reactant||!rmm||!pmm){res.style.display='none';err.style.display='none';return;}
+  if(rmm<=0||pmm<=0){err.textContent='몰 질량은 양수여야 합니다.';err.style.display='block';res.style.display='none';return;}
+  err.style.display='none';
+  const molReactant=reactant/rmm;
+  const theoretical=molReactant*ratio*pmm;
+  let sub=`이론 수득량: ${theoretical.toFixed(4)} g<br>반응물 몰 수: ${molReactant.toFixed(4)} mol`;
+  let mainText=`이론 수득량: ${theoretical.toFixed(4)} g`;
+  if(actual&&actual>0){
+    const pct=(actual/theoretical*100);
+    mainText=`수율: ${pct.toFixed(2)}%`;
+    sub=`실제 수득량: ${actual} g<br>이론 수득량: ${theoretical.toFixed(4)} g`;
+  }
+  document.getElementById('yld-pct').textContent=mainText;
+  document.getElementById('yld-sub').innerHTML=sub;
+  res.style.display='block';
+}
+
+// ============================================================
+// EQUATION BALANCER (STANDALONE)
+// ============================================================
+let balLastResult=null;
+function setBal(eq){document.getElementById('bal-input').value=eq;runBalancer();}
+function balancerInputChange(){document.getElementById('bal-err').style.display='none';}
+
+function runBalancer(){
+  const inp=document.getElementById('bal-input');
+  const val=inp.value.trim();
+  const err=document.getElementById('bal-err');
+  const display=document.getElementById('bal-display');
+  const info=document.getElementById('bal-info');
+  err.style.display='none';display.style.display='none';info.style.display='none';
+  if(!val){err.textContent='반응식을 입력하세요.';err.style.display='block';return;}
+  // Normalize lowercase formulas, arrow variants
+  const isEquilBal=val.includes('⇌');
+  let normVal=val.replace(/[⇌→⟶=]/g,'->');
+  const hasSepBal=normVal.includes('->');
+  normVal=normVal.split('->').map(side=>
+    side.split('+').map(t=>normTerm(t.trim())).join('+')
+  ).join('->');
+  // Reactants-only: predict products
+  if(!hasSepBal){
+    const reactants=normVal.split('+').map(t=>{const m=t.trim().match(/^(\d*)(.*)/);return(m&&m[2])||t.trim();}).filter(Boolean);
+    const pred=predictProducts(reactants);
+    if(pred){
+      normVal=pred[0].replace(/\s/g,'').split('+').map(t=>normTerm(t)).join('+')+
+              '->'+pred[1].replace(/\s/g,'').split('+').map(t=>normTerm(t)).join('+');
+    } else {
+      err.textContent='생성물을 예측할 수 없습니다. 전체 반응식을 입력하세요.';err.style.display='block';return;
+    }
+  }
+  inp.value=normVal.replace('->',(isEquilBal?' ⇌ ':' → '));
+  const norm=normVal.replace(/\s+/g,'');
+  const sides=norm.split('->');
+  if(sides.length!==2||!sides[0]||!sides[1]){err.textContent='반응식 형식 오류. 화살표(->, →, =)를 포함하세요.';err.style.display='block';return;}
+  const psSub=s=>{
+    const parts=s.split('+');
+    return parts.map(t=>{const m=t.match(/^(\d*)([A-Z][A-Za-z0-9()]*)/);return m?{c:parseInt(m[1])||1,f:m[2]}:null;}).filter(Boolean);
+  };
+  const R=psSub(sides[0]),P=psSub(sides[1]);
+  if(!R.length||!P.length){err.textContent='반응물 또는 생성물을 인식할 수 없습니다.';err.style.display='block';return;}
+  const parseBal=f=>{const r={};const re=/([A-Z][a-z]?)(\d*)/g;let m;while((m=re.exec(f))!==null)if(m[1])r[m[1]]=(r[m[1]]||0)+(parseInt(m[2])||1);return r;};
+  const all=[...R.map(r=>({...r,s:1})),...P.map(p=>({...p,s:-1}))];
+  const els=new Set();all.forEach(m=>{Object.keys(parseBal(m.f)).forEach(e=>els.add(e));});
+  const elA=[...els],n=all.length,mR=elA.length;
+  let A=elA.map(el=>all.map((m,i)=>m.s*(parseBal(m.f)[el]||0)));
+  let mat=A.map(row=>[...row.slice(0,n-1),-row[n-1]]);
+  const pivots=[];let row=0;
+  for(let c=0;c<n-1&&row<mR;c++){
+    let mx=row;for(let i=row+1;i<mR;i++)if(Math.abs(mat[i][c])>Math.abs(mat[mx][c]))mx=i;
+    if(Math.abs(mat[mx][c])<1e-9)continue;
+    [mat[row],mat[mx]]=[mat[mx],mat[row]];
+    const pv=mat[row][c];mat[row]=mat[row].map(v=>v/pv);
+    for(let i=0;i<mR;i++)if(i!==row&&Math.abs(mat[i][c])>1e-9){const f2=mat[i][c];mat[i]=mat[i].map((v,j)=>v-f2*mat[row][j]);}
+    pivots.push({r:row,c});row++;
+  }
+  const sol=new Array(n).fill(0);sol[n-1]=1;
+  pivots.forEach(({r,c})=>{sol[c]=mat[r][n-1];});
+  let sc2=1;for(let s=1;s<=60;s++){if(sol.every(v=>Math.abs(v*s-Math.round(v*s))<0.06)){sc2=s;break;}}
+  const co=sol.map(v=>Math.round(v*sc2));
+  if(co.some(v=>v<=0)){err.textContent='균형을 맞출 수 없습니다. 반응식을 확인하세요.';err.style.display='block';return;}
+  const checkOk=elA.every(el=>{const sm=all.reduce((a,m,i)=>a+m.s*co[i]*(parseBal(m.f)[el]||0),0);return Math.abs(sm)<0.5;});
+  if(!checkOk){err.textContent='균형 맞추기 실패. 더 복잡한 반응식이거나 오류가 있습니다.';err.style.display='block';return;}
+  const formatSub=arr=>arr.map((m,i)=>`<span class="bal-coef">${co[i]===1?'':co[i]}</span><span class="bal-formula">${m.f}</span>`).join(' + ');
+  const arrowStr=val.includes('⇌')?' <span class="bal-arrow">⇌</span> ':' <span class="bal-arrow">→</span> ';
+  display.innerHTML=formatSub(R)+arrowStr+formatSub(P);
+  display.style.display='block';
+  balLastResult={R,P,co,elA,parseBal};
+  // Verification table
+  const tbl=document.getElementById('bal-check-table');
+  let hdr='<tr><th>원소</th>'+R.map((m,i)=>`<th>${co[i]===1?'':co[i]}${m.f}</th>`).join('')+'<th>반응물 합계</th>'+P.map((m,i)=>`<th>${co[R.length+i]===1?'':co[R.length+i]}${m.f}</th>`).join('')+'<th>생성물 합계</th></tr>';
+  let rows=elA.map(el=>{
+    const rc=R.map((m,i)=>(parseBal(m.f)[el]||0)*co[i]);
+    const pc=P.map((m,i)=>(parseBal(m.f)[el]||0)*co[R.length+i]);
+    const rs=rc.reduce((a,b)=>a+b,0),ps=pc.reduce((a,b)=>a+b,0);
+    return `<tr><td>${el}</td>${rc.map(v=>`<td>${v||''}</td>`).join('')}<td class="ok">${rs}</td>${pc.map(v=>`<td>${v||''}</td>`).join('')}<td class="ok">${ps}</td></tr>`;
+  }).join('');
+  tbl.innerHTML=hdr+rows;
+  // Reaction type
+  const typeMap=[[/O2/,'연소 반응'],[/OH/,'중화 반응'],[/H2O$/,'합성 반응']];
+  let rxnType='화학 반응';
+  const rxnStr=val;
+  if(R.some(m=>m.f==='O2')||P.some(m=>m.f==='CO2')) rxnType='연소 반응';
+  else if(R.some(m=>m.f.includes('OH'))||P.some(m=>m.f==='H2O')) rxnType='중화/산-염기 반응';
+  else if(R.length===1) rxnType='분해 반응';
+  else if(P.length===1) rxnType='합성 반응';
+  document.getElementById('bal-type').innerHTML=`반응 유형 추정: <strong style="color:var(--neon)">${rxnType}</strong>`;
+  info.style.display='block';
+}
+
+function copyBalanced(){
+  if(!balLastResult) return;
+  const {R,P,co}=balLastResult;
+  const fmt=arr=>arr.map((m,i)=>(co[i]===1?'':co[i])+m.f).join(' + ');
+  const text=fmt(R)+' → '+fmt(P);
+  navigator.clipboard.writeText(text).then(()=>{const b=document.querySelector('.bal-copy-btn');if(b){const old=b.textContent;b.textContent='✓ 복사됨';setTimeout(()=>b.textContent=old,1500);}}).catch(()=>{});
+}
+
+// ============================================================
+// ACID-BASE CALCULATOR
+// ============================================================
+const KA_PRESETS={'1.8e-5':1.8e-5,'4.3e-7':4.3e-7,'6.2e-8':6.2e-8,'7.5e-3':7.5e-4,'1.8e-4':1.8e-4,'1.76e-5':1.76e-5,'4.4e-4':4.4e-4,'1.5e-9':1.5e-9};
+
+function abTab(t){
+  ['ph','tit','buf'].forEach(k=>{
+    document.getElementById('ab-tab-'+k).classList.toggle('active',k===t);
+  });
+  document.querySelectorAll('#acid-base .tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['ph','tit','buf'][i]===t);
+  });
+  if(t==='tit') setTimeout(drawTitration,80);
+}
+
+function applyKaPreset(){
+  const sel=document.getElementById('ph-ka-preset');
+  const v=sel.value;
+  if(v) document.getElementById('ph-ka').value=v;
+  calcPH();
+}
+function applyBufKaPreset(){
+  const sel=document.getElementById('buf-ka-preset');
+  const v=sel.value;
+  if(v) document.getElementById('buf-ka').value=v;
+  calcBuffer();
+}
+
+function calcPH(){
+  const type=document.getElementById('ph-type').value;
+  const conc=parseFloat(document.getElementById('ph-conc').value);
+  const kaRow=document.getElementById('ph-ka-row');
+  const err=document.getElementById('ph-err');
+  const res=document.getElementById('ph-result');
+  kaRow.style.display=(type==='wa'||type==='wb')?'block':'none';
+  if(!conc||conc<=0){res.style.display='none';err.style.display='none';return;}
+  err.style.display='none';
+  let pH;
+  if(type==='sa'){
+    pH=-Math.log10(conc);
+  } else if(type==='sb'){
+    const pOH=-Math.log10(conc);
+    pH=14-pOH;
+  } else {
+    const ka=parseFloat(document.getElementById('ph-ka').value);
+    if(!ka||ka<=0){err.textContent='Ka/Kb 값을 입력하세요.';err.style.display='block';res.style.display='none';return;}
+    if(type==='wa'){
+      // Quadratic: x² + Ka*x - Ka*C = 0
+      const disc=ka*ka+4*ka*conc;
+      const h=(-ka+Math.sqrt(disc))/2;
+      pH=-Math.log10(h);
+    } else {
+      // Weak base: Kb
+      const disc=ka*ka+4*ka*conc;
+      const oh=(-ka+Math.sqrt(disc))/2;
+      const pOH=-Math.log10(oh);
+      pH=14-pOH;
+    }
+  }
+  const pOH=14-pH;
+  const hPlus=Math.pow(10,-pH);
+  const ohMinus=Math.pow(10,-pOH);
+  document.getElementById('ph-ph').textContent=pH.toFixed(3);
+  document.getElementById('ph-poh').textContent=pOH.toFixed(3);
+  document.getElementById('ph-hp').textContent=hPlus.toExponential(3);
+  document.getElementById('ph-ohp').textContent=ohMinus.toExponential(3);
+  const pct=Math.max(0,Math.min(100,pH/14*100));
+  document.getElementById('ph-cursor').style.left=pct+'%';
+  res.style.display='block';
+}
+
+let titChart=null;
+function calcTitPH(vb,ca,va,cb,isWeak){
+  const Ka=1.8e-5;
+  const molesA=ca*va/1000;
+  const molesB=cb*vb/1000;
+  const totalVol=(va+vb)/1000;
+  if(molesB<molesA){
+    // Before equivalence
+    const mA=molesA-molesB;
+    if(!isWeak){
+      return -Math.log10(mA/totalVol);
+    } else {
+      if(molesB===0) return -Math.log10(Math.sqrt(Ka*ca));
+      const ratio=molesB/mA;
+      return -Math.log10(Ka)+Math.log10(ratio);
+    }
+  } else if(Math.abs(molesB-molesA)<1e-10){
+    // At equivalence
+    if(!isWeak) return 7;
+    const Kb=1e-14/Ka;
+    const concA=molesA/totalVol;
+    return 14+0.5*Math.log10(Ka)-0.5*Math.log10(concA);
+  } else {
+    // Past equivalence
+    const mB=molesB-molesA;
+    return 14+Math.log10(mB/totalVol);
+  }
+}
+
+function drawTitration(){
+  const ca=parseFloat(document.getElementById('tit-ca').value)||0.1;
+  const va=parseFloat(document.getElementById('tit-va').value)||25;
+  const cb=parseFloat(document.getElementById('tit-cb').value)||0.1;
+  const isWeak=document.getElementById('tit-acid-type').value==='weak';
+  const vEq=ca*va/cb;
+  const vMax=vEq*2.2;
+  const pts=80;
+  const labels=[],data=[];
+  for(let i=0;i<=pts;i++){
+    const vb=vMax*i/pts;
+    labels.push(vb.toFixed(1));
+    data.push(calcTitPH(vb,ca,va,cb,isWeak));
+  }
+  const eqPH=calcTitPH(vEq,ca,va,cb,isWeak);
+  const halfEqPH=isWeak?(-Math.log10(1.8e-5)):undefined;
+  const infoEl=document.getElementById('tit-info');
+  infoEl.innerHTML=`당량점: V = ${vEq.toFixed(2)} mL, pH ≈ ${eqPH.toFixed(2)}`+(isWeak?` | 반당량점: pH ≈ pKa = ${halfEqPH.toFixed(2)}`:'');
+  const canvas=document.getElementById('tit-canvas');
+  if(!canvas) return;
+  if(titChart){titChart.destroy();}
+  titChart=new Chart(canvas,{
+    type:'line',
+    data:{labels,datasets:[{data,borderColor:'#00ffc8',borderWidth:2,fill:false,pointRadius:0,tension:0.1}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`pH: ${c.parsed.y.toFixed(2)}, V: ${c.parsed.x.toFixed(1)} mL`}}},
+      scales:{
+        x:{ticks:{maxTicksLimit:8,color:'#556699',font:{size:9}},title:{display:true,text:'첨가한 NaOH (mL)',color:'#556699'}},
+        y:{min:0,max:14,ticks:{color:'#556699'},title:{display:true,text:'pH',color:'#556699'}}
+      }
+    }
+  });
+  document.getElementById('tit-slider').max=Math.round(vMax);
+  updateTitSlider();
+}
+
+function updateTitSlider(){
+  const ca=parseFloat(document.getElementById('tit-ca').value)||0.1;
+  const va=parseFloat(document.getElementById('tit-va').value)||25;
+  const cb=parseFloat(document.getElementById('tit-cb').value)||0.1;
+  const isWeak=document.getElementById('tit-acid-type').value==='weak';
+  const vb=parseFloat(document.getElementById('tit-slider').value)||0;
+  const pH=calcTitPH(vb,ca,va,cb,isWeak);
+  document.getElementById('tit-slider-ph').textContent=pH.toFixed(3);
+  document.getElementById('tit-slider-label').innerHTML=`NaOH ${vb} mL 첨가 → pH <span id="tit-slider-ph">${pH.toFixed(3)}</span>`;
+}
+
+function calcBuffer(){
+  const ka=parseFloat(document.getElementById('buf-ka').value);
+  const ha=parseFloat(document.getElementById('buf-ha').value);
+  const a=parseFloat(document.getElementById('buf-a').value);
+  const err=document.getElementById('buf-err');
+  const res=document.getElementById('buf-result');
+  if(!ka||!ha||!a){res.style.display='none';err.style.display='none';return;}
+  if(ka<=0||ha<=0||a<=0){err.textContent='모든 값은 양수여야 합니다.';err.style.display='block';res.style.display='none';return;}
+  err.style.display='none';
+  const pKa=-Math.log10(ka);
+  const pH=pKa+Math.log10(a/ha);
+  const bufRange=[pKa-1,pKa+1];
+  document.getElementById('buf-ph').textContent='pH = '+pH.toFixed(3);
+  document.getElementById('buf-sub').innerHTML=`pKa = ${pKa.toFixed(3)}<br>완충 범위: pH ${bufRange[0].toFixed(2)} ~ ${bufRange[1].toFixed(2)}<br>[A⁻]/[HA] = ${(a/ha).toFixed(3)}`;
+  res.style.display='block';
+}
+
+// ============================================================
+// SOLUBILITY RULES
+// ============================================================
+const SOL_CATIONS=['Na⁺','K⁺','NH₄⁺','Ca²⁺','Mg²⁺','Ba²⁺','Fe²⁺','Fe³⁺','Cu²⁺','Ag⁺','Pb²⁺','Al³⁺','Zn²⁺'];
+const SOL_ANIONS=['Cl⁻','Br⁻','I⁻','SO₄²⁻','CO₃²⁻','PO₄³⁻','OH⁻','NO₃⁻','CH₃COO⁻','S²⁻'];
+// S=가용성, I=불용성, sl=약간, N=해당없음
+const SOL_DATA=[
+//       Cl⁻  Br⁻  I⁻  SO₄  CO₃  PO₄  OH⁻ NO₃ OAc  S²⁻
+/*Na⁺*/ ['S', 'S', 'S', 'S', 'S', 'S', 'S','S','S', 'S'],
+/*K⁺*/  ['S', 'S', 'S', 'S', 'S', 'S', 'S','S','S', 'S'],
+/*NH₄⁺*/['S', 'S', 'S', 'S', 'S', 'S', 'S','S','S', 'S'],
+/*Ca²⁺*/['S', 'S', 'S', 'sl','I', 'I', 'sl','S','S', 'S'],
+/*Mg²⁺*/['S', 'S', 'S', 'S', 'I', 'I', 'I','S','S', 'I'],
+/*Ba²⁺*/['S', 'S', 'S', 'I', 'I', 'I', 'S','S','S', 'S'],
+/*Fe²⁺*/['S', 'S', 'S', 'S', 'I', 'I', 'I','S','S', 'I'],
+/*Fe³⁺*/['S', 'S', 'N', 'S', 'I', 'I', 'I','S','S', 'N'],
+/*Cu²⁺*/['S', 'S', 'N', 'S', 'I', 'I', 'I','S','S', 'I'],
+/*Ag⁺*/ ['I', 'I', 'I', 'sl','I', 'I', 'N','S','S', 'I'],
+/*Pb²⁺*/['sl','sl','I', 'I', 'I', 'I', 'I','S','sl','I'],
+/*Al³⁺*/['S', 'S', 'S', 'S', 'N', 'I', 'I','S','S', 'N'],
+/*Zn²⁺*/['S', 'S', 'S', 'S', 'I', 'I', 'I','S','S', 'I'],
+];
+
+const SOL_COMPOUNDS=[
+//       Cl     Br     I      SO4    CO3    PO4        OH         NO3    OAc    S
+/*Na*/  ['NaCl','NaBr','NaI','Na2SO4','Na2CO3','Na3PO4','NaOH','NaNO3','CH3COONa','Na2S'],
+/*K*/   ['KCl','KBr','KI','K2SO4','K2CO3','K3PO4','KOH','KNO3','CH3COOK','K2S'],
+/*NH4*/ ['NH4Cl','NH4Br','NH4I','(NH4)2SO4','(NH4)2CO3','(NH4)3PO4','NH4OH','NH4NO3','CH3COONH4','(NH4)2S'],
+/*Ca*/  ['CaCl2','CaBr2','CaI2','CaSO4','CaCO3','Ca3(PO4)2','Ca(OH)2','Ca(NO3)2','Ca(CH3COO)2','CaS'],
+/*Mg*/  ['MgCl2','MgBr2','MgI2','MgSO4','MgCO3','Mg3(PO4)2','Mg(OH)2','Mg(NO3)2','Mg(CH3COO)2','MgS'],
+/*Ba*/  ['BaCl2','BaBr2','BaI2','BaSO4','BaCO3','Ba3(PO4)2','Ba(OH)2','Ba(NO3)2','Ba(CH3COO)2','BaS'],
+/*Fe2*/ ['FeCl2','FeBr2','FeI2','FeSO4','FeCO3','Fe3(PO4)2','Fe(OH)2','Fe(NO3)2','Fe(CH3COO)2','FeS'],
+/*Fe3*/ ['FeCl3','FeBr3','N/A','Fe2(SO4)3','Fe2(CO3)3','FePO4','Fe(OH)3','Fe(NO3)3','Fe(CH3COO)3','N/A'],
+/*Cu*/  ['CuCl2','CuBr2','N/A','CuSO4','CuCO3','Cu3(PO4)2','Cu(OH)2','Cu(NO3)2','Cu(CH3COO)2','CuS'],
+/*Ag*/  ['AgCl','AgBr','AgI','Ag2SO4','Ag2CO3','Ag3PO4','N/A','AgNO3','AgCH3COO','Ag2S'],
+/*Pb*/  ['PbCl2','PbBr2','PbI2','PbSO4','PbCO3','Pb3(PO4)2','Pb(OH)2','Pb(NO3)2','Pb(CH3COO)2','PbS'],
+/*Al*/  ['AlCl3','AlBr3','AlI3','Al2(SO4)3','N/A','AlPO4','Al(OH)3','Al(NO3)3','Al(CH3COO)3','N/A'],
+/*Zn*/  ['ZnCl2','ZnBr2','ZnI2','ZnSO4','ZnCO3','Zn3(PO4)2','Zn(OH)2','Zn(NO3)2','Zn(CH3COO)2','ZnS'],
+];
+
+const SOL_RULES=[
+  {title:'NO₃⁻ (질산 이온) 규칙',text:'모든 질산염은 가용성입니다.'},
+  {title:'CH₃COO⁻ (아세트산 이온) 규칙',text:'대부분의 아세트산염은 가용성입니다.'},
+  {title:'Cl⁻, Br⁻, I⁻ (할로겐화 이온) 규칙',text:'대부분의 염화물·브로민화물·아이오딘화물은 가용성입니다. 단, Ag⁺, Pb²⁺, Hg₂²⁺와는 불용성.'},
+  {title:'SO₄²⁻ (황산 이온) 규칙',text:'대부분의 황산염은 가용성입니다. 단, Ba²⁺, Pb²⁺는 불용성; Ca²⁺, Ag⁺는 약간 가용성.'},
+  {title:'CO₃²⁻ (탄산 이온) 규칙',text:'대부분의 탄산염은 불용성입니다. 단, 알칼리 금속 및 NH₄⁺ 탄산염은 가용성.'},
+  {title:'PO₄³⁻ (인산 이온) 규칙',text:'대부분의 인산염은 불용성입니다. 단, 알칼리 금속 및 NH₄⁺ 인산염은 가용성.'},
+  {title:'OH⁻ (수산화 이온) 규칙',text:'대부분의 수산화물은 불용성입니다. 알칼리 금속, Ba²⁺, Sr²⁺ 수산화물은 가용성.'},
+  {title:'S²⁻ (황화 이온) 규칙',text:'알칼리 금속 및 NH₄⁺ 황화물은 가용성. 중금속 황화물 대부분은 불용성.'},
+  {title:'Na⁺, K⁺, NH₄⁺ (알칼리/암모늄) 규칙',text:'나트륨, 칼륨, 암모늄 염은 거의 모두 가용성입니다.'},
+  {title:'Ag⁺ (은 이온) 규칙',text:'대부분의 은 화합물은 불용성입니다. AgNO₃, AgCH₃COO는 예외적으로 가용성.'},
+];
+
+let solBuilt=false;
+function buildSolTable(){
+  if(solBuilt) return;solBuilt=true;
+  // Populate lookup dropdowns
+  const catSel=document.getElementById('sol-lookup-cat');
+  const anSel=document.getElementById('sol-lookup-an');
+  SOL_CATIONS.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;catSel.appendChild(o);});
+  SOL_ANIONS.forEach(a=>{const o=document.createElement('option');o.value=a;o.textContent=a;anSel.appendChild(o);});
+  // Build table
+  const tbl=document.getElementById('sol-tbl');
+  const solClass={S:'sol-s',I:'sol-i',sl:'sol-sl',N:'sol-na'};
+  const solLabel={S:'S',I:'I',sl:'sl',N:'—'};
+  let html='<thead><tr><th class="cation-header">양이온 \\ 음이온</th>'+SOL_ANIONS.map(a=>`<th>${a}</th>`).join('')+'</tr></thead><tbody>';
+  SOL_CATIONS.forEach((cat,ci)=>{
+    html+=`<tr><th class="cation-header">${cat}</th>`;
+    SOL_DATA[ci].forEach((s,ai)=>{
+      const comp=SOL_COMPOUNDS[ci][ai];
+      html+=`<td class="${solClass[s]||'sol-na'}" onclick="solCellClick(${ci},${ai})" title="${comp}: ${s==='S'?'가용성':s==='I'?'불용성':s==='sl'?'약간 가용성':'해당 없음'}">${solLabel[s]||'—'}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody>';
+  tbl.innerHTML=html;
+  // Build rule grid
+  const grid=document.getElementById('sol-rule-grid');
+  grid.innerHTML=SOL_RULES.map((r,i)=>`<div class="sol-rule" onclick="solRuleClick(${i},this)"><h4>${r.title}</h4><p>${r.text}</p></div>`).join('');
+}
+
+function solCellClick(ci,ai){
+  document.querySelectorAll('#sol-tbl td.hl').forEach(t=>t.classList.remove('hl'));
+  const tbl=document.getElementById('sol-tbl');
+  const cells=tbl.querySelectorAll('td');
+  const idx=ci*SOL_ANIONS.length+ai;
+  if(cells[idx]) cells[idx].classList.add('hl');
+  const comp=SOL_COMPOUNDS[ci][ai];
+  const s=SOL_DATA[ci][ai];
+  const label={S:'가용성 (Soluble)',I:'불용성 (Insoluble)',sl:'약간 가용성 (Slightly soluble)',N:'해당 없음'}[s]||s;
+  const res=document.getElementById('sol-lookup-result');
+  res.style.display='block';
+  res.innerHTML=`<strong style="color:var(--neon)">${comp}</strong> — <span style="color:${s==='S'?'#00cc55':s==='I'?'#ff4455':s==='sl'?'#ffcc00':'var(--text3)'}">${label}</span>`;
+}
+
+function solRuleClick(idx,el){
+  document.querySelectorAll('.sol-rule').forEach(r=>r.classList.remove('active'));
+  el.classList.add('active');
+  // Highlight relevant cells
+  document.querySelectorAll('#sol-tbl td.hl').forEach(t=>t.classList.remove('hl'));
+  const anIdx=[0,1,2,3,4,5,6,7,8,9];
+  const ruleAnionMap={0:[7],1:[8],2:[0,1,2],3:[3],4:[4],5:[5],6:[6],7:[9],8:null,9:null};
+  const targetAnions=ruleAnionMap[idx];
+  if(targetAnions){
+    const tbl=document.getElementById('sol-tbl');
+    const cells=tbl.querySelectorAll('td');
+    SOL_CATIONS.forEach((cat,ci)=>{
+      targetAnions.forEach(ai=>{
+        const cell=cells[ci*SOL_ANIONS.length+ai];
+        if(cell) cell.classList.add('hl');
+      });
+    });
+  }
+}
+
+function solLookup(){
+  const cat=document.getElementById('sol-lookup-cat').value;
+  const an=document.getElementById('sol-lookup-an').value;
+  const res=document.getElementById('sol-lookup-result');
+  if(!cat||!an){res.style.display='block';res.textContent='양이온과 음이온을 모두 선택하세요.';return;}
+  const ci=SOL_CATIONS.indexOf(cat);
+  const ai=SOL_ANIONS.indexOf(an);
+  if(ci<0||ai<0){res.style.display='block';res.textContent='선택 오류.';return;}
+  solCellClick(ci,ai);
+}
+
+// ============================================================
+// ELECTROCHEMISTRY
+// ============================================================
+const REDOX_DATA=[
+  {eq:'F₂ + 2e⁻ → 2F⁻',            eo:2.87,  cat:'비금속'},
+  {eq:'Co³⁺ + e⁻ → Co²⁺',           eo:1.82,  cat:'전이금속'},
+  {eq:'Au³⁺ + 3e⁻ → Au',             eo:1.50,  cat:'전이금속'},
+  {eq:'Cl₂ + 2e⁻ → 2Cl⁻',           eo:1.36,  cat:'비금속'},
+  {eq:'Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O', eo:1.33, cat:'산화제'},
+  {eq:'O₂ + 4H⁺ + 4e⁻ → 2H₂O',    eo:1.23,  cat:'비금속'},
+  {eq:'Br₂ + 2e⁻ → 2Br⁻',           eo:1.07,  cat:'비금속'},
+  {eq:'NO₃⁻ + 4H⁺ + 3e⁻ → NO + 2H₂O', eo:0.96, cat:'산화제'},
+  {eq:'Ag⁺ + e⁻ → Ag',               eo:0.80,  cat:'전이금속'},
+  {eq:'Fe³⁺ + e⁻ → Fe²⁺',            eo:0.77,  cat:'전이금속'},
+  {eq:'MnO₄⁻ + e⁻ → MnO₄²⁻',        eo:0.56,  cat:'산화제'},
+  {eq:'Cu²⁺ + 2e⁻ → Cu',             eo:0.34,  cat:'전이금속'},
+  {eq:'Cu²⁺ + e⁻ → Cu⁺',             eo:0.16,  cat:'전이금속'},
+  {eq:'Sn⁴⁺ + 2e⁻ → Sn²⁺',           eo:0.15,  cat:'전이금속'},
+  {eq:'2H⁺ + 2e⁻ → H₂',              eo:0.00,  cat:'기준'},
+  {eq:'Fe³⁺ + 3e⁻ → Fe',             eo:-0.04, cat:'전이금속'},
+  {eq:'Pb²⁺ + 2e⁻ → Pb',             eo:-0.13, cat:'전이금속'},
+  {eq:'Sn²⁺ + 2e⁻ → Sn',             eo:-0.14, cat:'전이금속'},
+  {eq:'Ni²⁺ + 2e⁻ → Ni',             eo:-0.25, cat:'전이금속'},
+  {eq:'Co²⁺ + 2e⁻ → Co',             eo:-0.28, cat:'전이금속'},
+  {eq:'Fe²⁺ + 2e⁻ → Fe',             eo:-0.44, cat:'전이금속'},
+  {eq:'Cr³⁺ + 3e⁻ → Cr',             eo:-0.74, cat:'전이금속'},
+  {eq:'Zn²⁺ + 2e⁻ → Zn',             eo:-0.76, cat:'전이금속'},
+  {eq:'2H₂O + 2e⁻ → H₂ + 2OH⁻',    eo:-0.83, cat:'비금속'},
+  {eq:'Mn²⁺ + 2e⁻ → Mn',             eo:-1.19, cat:'전이금속'},
+  {eq:'Al³⁺ + 3e⁻ → Al',             eo:-1.66, cat:'주족금속'},
+  {eq:'Mg²⁺ + 2e⁻ → Mg',             eo:-2.37, cat:'알칼리토금속'},
+  {eq:'Na⁺ + e⁻ → Na',               eo:-2.71, cat:'알칼리금속'},
+  {eq:'Ca²⁺ + 2e⁻ → Ca',             eo:-2.87, cat:'알칼리토금속'},
+  {eq:'K⁺ + e⁻ → K',                 eo:-2.93, cat:'알칼리금속'},
+  {eq:'Li⁺ + e⁻ → Li',               eo:-3.04, cat:'알칼리금속'},
+];
+
+let ecBuilt=false;
+let cellCathode=null,cellAnode=null,cellSelectStep=0;
+
+function buildRedoxTable(){
+  if(ecBuilt) return;ecBuilt=true;
+  filterRedox();
+}
+
+function filterRedox(){
+  const q=(document.getElementById('redox-search').value||'').toLowerCase();
+  const tbody=document.getElementById('redox-tbody');
+  tbody.innerHTML=REDOX_DATA.filter(r=>!q||r.eq.toLowerCase().includes(q)||r.cat.toLowerCase().includes(q))
+    .map((r,i)=>`<tr onclick="selectHalfRxn(${REDOX_DATA.indexOf(r)})" data-idx="${REDOX_DATA.indexOf(r)}">
+      <td>${r.eq}</td><td class="eo">${r.eo>=0?'+':''}${r.eo.toFixed(2)}</td><td style="color:var(--text3);font-size:0.8em">${r.cat}</td>
+    </tr>`).join('');
+}
+
+function ecTab(t){
+  ['redox','cell','electrolysis','oxnum'].forEach(k=>{
+    document.getElementById('ec-tab-'+k).classList.toggle('active',k===t);
+  });
+  document.querySelectorAll('#electrochemistry .tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['redox','cell','electrolysis','oxnum'][i]===t);
+  });
+}
+
+function selectHalfRxn(idx){
+  const r=REDOX_DATA[idx];
+  document.querySelectorAll('#redox-tbody tr.sel').forEach(t=>t.classList.remove('sel'));
+  const tr=document.querySelector(`#redox-tbody tr[data-idx="${idx}"]`);
+  if(tr) tr.classList.add('sel');
+  if(cellSelectStep===0||(!cellCathode)){
+    cellCathode=r;cellSelectStep=1;
+    document.getElementById('cell-cathode-label').innerHTML=`<span style="color:var(--neon)">${r.eq}</span><br>E° = ${r.eo>=0?'+':''}${r.eo.toFixed(2)} V`;
+  } else {
+    cellAnode=r;cellSelectStep=0;
+    document.getElementById('cell-anode-label').innerHTML=`<span style="color:#4488ff">${r.eq}</span><br>E° = ${r.eo>=0?'+':''}${r.eo.toFixed(2)} V`;
+    calcCell();
+  }
+}
+
+function calcCell(){
+  const res=document.getElementById('cell-result');
+  if(!cellCathode||!cellAnode){res.style.display='none';return;}
+  const Ec=cellCathode.eo, Ea=cellAnode.eo;
+  const Ecell=Ec-Ea;
+  const T=parseFloat(document.getElementById('cell-T').value)||298;
+  const n=parseFloat(document.getElementById('cell-n').value)||2;
+  const Q=parseFloat(document.getElementById('cell-Q').value)||1;
+  const R=8.314,F=96485;
+  const Enernst=Ecell-(R*T)/(n*F)*Math.log(Q);
+  const dG=-n*F*Ecell;
+  const spontaneous=Ecell>0;
+  res.innerHTML=`<div class="cell-result-main">E°cell = ${Ecell>=0?'+':''}${Ecell.toFixed(4)} V</div>
+    <div class="cresult-sub">
+      E°(음극) = ${Ec>=0?'+':''}${Ec.toFixed(3)} V<br>
+      E°(양극) = ${Ea>=0?'+':''}${Ea.toFixed(3)} V<br>
+      E_Nernst = ${Enernst>=0?'+':''}${Enernst.toFixed(4)} V (T=${T}K, Q=${Q}, n=${n})<br>
+      ΔG° = ${(dG/1000).toFixed(2)} kJ/mol<br>
+      <strong style="color:${spontaneous?'var(--neon)':'var(--red)'}">${spontaneous?'✓ 자발적 반응':'✗ 비자발적 반응'}</strong>
+    </div>`;
+  res.style.display='block';
+}
+
+function calcElectrolysis(){
+  const I=parseFloat(document.getElementById('el-I').value);
+  const tVal=parseFloat(document.getElementById('el-t').value);
+  const unit=document.getElementById('el-unit').value;
+  const mm=parseFloat(document.getElementById('el-mm').value);
+  const n=parseFloat(document.getElementById('el-n').value)||1;
+  const err=document.getElementById('el-err');
+  const res=document.getElementById('el-result');
+  if(!I||!tVal||!mm){res.style.display='none';err.style.display='none';return;}
+  const t=unit==='h'?tVal*3600:tVal;
+  const F=96485;
+  const Q_charge=I*t;
+  const moles=Q_charge/(n*F);
+  const mass=moles*mm;
+  document.getElementById('el-mass').textContent=mass.toFixed(4)+' g';
+  document.getElementById('el-sub').innerHTML=`전하량: ${Q_charge.toFixed(2)} C<br>석출 몰 수: ${moles.toFixed(6)} mol<br>I = ${I} A, t = ${t} s, n = ${n}`;
+  res.style.display='block';
+  err.style.display='none';
+}
+
+function setOx(f){document.getElementById('ox-input').value=f;calcOxState();}
+
+const OX_RULES=[
+  {sym:'O', val:-2, exceptions:[{ctx:'peroxide',val:-1},{ctx:'OF2',val:2},{ctx:'O2',val:0}]},
+  {sym:'H', val:1, exceptions:[{ctx:'metal-hydride',val:-1}]},
+  {sym:'F', val:-1},
+  {sym:'Na',val:1},{sym:'K',val:1},{sym:'Li',val:1},{sym:'Cs',val:1},{sym:'Rb',val:1},
+  {sym:'Mg',val:2},{sym:'Ca',val:2},{sym:'Ba',val:2},{sym:'Sr',val:2},
+  {sym:'Al',val:3},{sym:'Zn',val:2},{sym:'Ag',val:1},
+  {sym:'Cl',val:-1},{sym:'Br',val:-1},{sym:'I',val:-1},
+];
+
+function calcOxState(){
+  const raw=document.getElementById('ox-input').value.trim();
+  const err=document.getElementById('ox-err');
+  const res=document.getElementById('ox-result');
+  if(!raw){res.style.display='none';err.style.display='none';return;}
+  const parse=f=>{const r={};const re=/([A-Z][a-z]?)(\d*)/g;let m;while((m=re.exec(f))!==null)if(m[1])r[m[1]]=(r[m[1]]||0)+(parseInt(m[2])||1);return r;};
+  const comp=parse(raw);
+  const elems=Object.keys(comp);
+  if(!elems.length){err.textContent='올바른 화합물 형식을 입력하세요.';err.style.display='block';res.style.display='none';return;}
+  err.style.display='none';
+  // Determine compound charge (assume 0 for neutral)
+  const totalCharge=0;
+  // Try to assign oxidation states using rules
+  const known={};
+  // Apply fixed rules first
+  for(const sym of elems){
+    const rule=OX_RULES.find(r=>r.sym===sym);
+    if(rule) known[sym]=rule.val;
+  }
+  // Solve for unknowns
+  const unknownEls=elems.filter(e=>known[e]===undefined);
+  if(unknownEls.length===1){
+    const sym=unknownEls[0];
+    const sumKnown=elems.filter(e=>e!==sym).reduce((a,e)=>{
+      const v=known[e];
+      return a+(typeof v==='number'?v*comp[e]:0);
+    },0);
+    const val=(totalCharge-sumKnown)/comp[sym];
+    known[sym]=val;
+  } else if(unknownEls.length===0){
+    // all known, verify
+  } else {
+    err.textContent='산화수를 자동으로 계산하기 어렵습니다. 더 단순한 화합물을 입력하세요.';err.style.display='block';res.style.display='none';return;
+  }
+  document.getElementById('ox-formula-display').innerHTML='화합물: <strong style="color:var(--neon)">'+raw+'</strong>';
+  document.getElementById('oxstate-chips').innerHTML=elems.map(sym=>{
+    const val=known[sym];
+    const valStr=typeof val==='number'?(val===0?'0':(val>0?'+'+val.toFixed(0):val.toFixed(0))):'?';
+    return `<div class="oxstate-chip"><span class="oxstate-sym">${sym}</span><span class="oxstate-val">산화수: ${valStr}</span><span style="color:var(--text3);font-size:0.8em">×${comp[sym]}</span></div>`;
+  }).join('');
+  res.style.display='block';
+}
+
 initSidebars();
+updateFavBadge();
 </script>
 </body>
 </html>
+
