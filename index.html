@@ -321,14 +321,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
 .fav-star-btn:hover{color:#ffdd00}
 
 /* ===== COMPARE PANEL ===== */
-.compare-panel{position:fixed;bottom:-560px;left:0;right:0;background:var(--bg2);border-top:2px solid var(--neon);z-index:790;transition:bottom 0.35s ease;box-shadow:0 -4px 24px rgba(0,0,0,0.5)}
+.compare-panel{position:fixed;bottom:-660px;left:0;right:0;background:var(--bg2);border-top:2px solid var(--neon);z-index:790;transition:bottom 0.35s ease;box-shadow:0 -4px 24px rgba(0,0,0,0.5)}
 .compare-panel.open{bottom:0}
 .compare-head{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border)}
 .compare-title{font-size:0.95em;font-weight:600;color:var(--neon)}
 .compare-slots{display:flex;gap:10px;padding:0 0 0 8px;align-items:center}
 .compare-slot{padding:4px 12px;border:1px dashed var(--border);border-radius:6px;color:var(--text3);font-size:0.82em}
 .compare-slot.filled{border-color:var(--neon);color:var(--neon);font-weight:600}
-.compare-body{overflow-x:auto;padding:12px 18px;max-height:480px}
+.compare-body{overflow-x:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 18px;max-height:480px}
 .bond-analysis{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px 0 4px;border-top:1px solid var(--border);margin-top:8px}
 .bond-result-box{background:var(--bg);border-radius:10px;padding:14px 16px;border:2px solid var(--border)}
 .bond-result-box.ionic{border-color:#ff8844}
@@ -465,6 +465,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
 .viewer-err-ui .ve-icon{font-size:3em;margin-bottom:10px}
 .viewer-err-ui .ve-msg{color:var(--red);font-size:0.95em;margin-bottom:6px;font-weight:600}
 .viewer-err-ui .ve-sub{font-size:0.82em;line-height:1.6;margin-bottom:14px}
+/* ===== LAYOUT FIXES ===== */
+.viewer-layout>.panel{overflow-y:auto;max-height:calc(100vh - 70px);align-self:start}
+@media(max-width:768px){
+  .compare-panel{bottom:-100vh;max-height:80vh}
+  .compare-panel.open{bottom:0}
+  .compare-body{max-height:calc(80vh - 56px)}
+}
 </style>
 </head>
 <body>
@@ -551,6 +558,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
     </div>
     <div id="sim-rxn-display" class="sim-rxn-display">
       <div class="sim-rxn-inner" id="sim-rxn-inner"><span class="sim-rxn-empty">반응식을 입력하거나 아래 프리셋을 선택하세요.</span></div>
+    </div>
+    <div style="margin:14px 0 8px;background:#050a14;border:1px solid var(--border);border-radius:10px;overflow:hidden;position:relative">
+      <canvas id="sim-canvas" style="display:block;width:100%;height:260px"></canvas>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <button class="sim-sbtn" onclick="startSim()">▶ 시뮬레이션 시작</button>
+      <button class="sim-sbtn" id="btn-sim-pause" onclick="pauseSim()">⏸ 일시정지</button>
+      <button class="sim-sbtn" onclick="resetSim()">↺ 초기화</button>
+      <span class="sim-status" id="sim-status" style="flex:1;font-size:0.82em;color:var(--text2)">반응 대기 중…</span>
     </div>
     <div class="sim-charts-row">
       <div class="sim-cpanel">
@@ -1087,7 +1103,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
           <button class="bal-ex-btn" onclick="setBal('HCl + NaOH -> NaCl + H2O')">중화 반응</button>
           <button class="bal-ex-btn" onclick="setBal('H2SO4 + NaOH -> Na2SO4 + H2O')">황산 중화</button>
           <button class="bal-ex-btn" onclick="setBal('N2 + H2 -> NH3')">암모니아 합성</button>
-          <button class="bal-ex-btn" onclick="setBal('Ca + H2O -> CaOH2 + H2')">칼슘+물</button>
+          <button class="bal-ex-btn" onclick="setBal('Ca + H2O -> Ca(OH)2 + H2')">칼슘+물</button>
         </div>
         <div class="cerr" id="bal-err"></div>
       </div>
@@ -1470,7 +1486,7 @@ const ELEMENTS=[
   [33,'As','비소',74.922,2.18,'metalloid',4,15,'고체','[Ar] 3d¹⁰4s²4p³',114,947,-78],
   [34,'Se','셀레늄',78.971,2.55,'nonmetal',4,16,'고체','[Ar] 3d¹⁰4s²4p⁴',103,941,-195],
   [35,'Br','브로민',79.904,2.96,'halogen',4,17,'액체','[Ar] 3d¹⁰4s²4p⁵',94,1140,-325],
-  [36,'Kr','크립톤',83.798,3.00,'noble',4,18,'기체','[Ar] 3d¹⁰4s²4p⁶',88,1351,0],
+  [36,'Kr','크립톤',83.798,0,'noble',4,18,'기체','[Ar] 3d¹⁰4s²4p⁶',88,1351,0],
   [37,'Rb','루비듐',85.468,0.82,'alkali',5,1,'고체','[Kr] 5s¹',265,403,-47],
   [38,'Sr','스트론튬',87.62,0.95,'alkaline',5,2,'고체','[Kr] 5s²',219,550,-5],
   [39,'Y','이트륨',88.906,1.22,'transition',5,3,'고체','[Kr] 4d¹5s²',212,600,-30],
@@ -1488,7 +1504,7 @@ const ELEMENTS=[
   [51,'Sb','안티모니',121.760,2.05,'metalloid',5,15,'고체','[Kr] 4d¹⁰5s²5p³',133,834,-103],
   [52,'Te','텔루륨',127.60,2.10,'metalloid',5,16,'고체','[Kr] 4d¹⁰5s²5p⁴',123,869,-190],
   [53,'I','아이오딘',126.904,2.66,'halogen',5,17,'고체','[Kr] 4d¹⁰5s²5p⁵',115,1008,-295],
-  [54,'Xe','제논',131.293,2.6,'noble',5,18,'기체','[Kr] 4d¹⁰5s²5p⁶',108,1170,0],
+  [54,'Xe','제논',131.293,0,'noble',5,18,'기체','[Kr] 4d¹⁰5s²5p⁶',108,1170,0],
   [55,'Cs','세슘',132.905,0.79,'alkali',6,1,'고체','[Xe] 6s¹',298,376,-46],
   [56,'Ba','바륨',137.327,0.89,'alkaline',6,2,'고체','[Xe] 6s²',253,503,-14],
   [57,'La','란타넘',138.905,1.1,'lanthanide',6,3,'고체','[Xe] 5d¹6s²',195,538,-48],
@@ -1520,7 +1536,7 @@ const ELEMENTS=[
   [83,'Bi','비스무트',208.980,2.02,'post-transition',6,15,'고체','[Xe] 4f¹⁴5d¹⁰6s²6p³',143,703,-91],
   [84,'Po','폴로늄',209,2.0,'post-transition',6,16,'고체','[Xe] 4f¹⁴5d¹⁰6s²6p⁴',135,812,-183],
   [85,'At','아스타틴',210,2.2,'halogen',6,17,'고체','[Xe] 4f¹⁴5d¹⁰6s²6p⁵',127,920,-270],
-  [86,'Rn','라돈',222,2.2,'noble',6,18,'기체','[Xe] 4f¹⁴5d¹⁰6s²6p⁶',120,1037,0],
+  [86,'Rn','라돈',222,0,'noble',6,18,'기체','[Xe] 4f¹⁴5d¹⁰6s²6p⁶',120,1037,0],
   [87,'Fr','프랑슘',223,0.7,'alkali',7,1,'고체','[Rn] 7s¹',348,393,-44],
   [88,'Ra','라듐',226,0.9,'alkaline',7,2,'고체','[Rn] 7s²',283,509,-10],
   [89,'Ac','악티늄',227,1.1,'actinide',7,3,'고체','[Rn] 6d¹7s²',195,499,-34],
@@ -1855,8 +1871,13 @@ function showResults(f,d){
 let viewer3d=null,currentStyle='stick';
 function initViewer(){
   if(!viewer3d){
+    if(typeof $3Dmol==='undefined'){
+      console.error('3Dmol.js 라이브러리가 로드되지 않았습니다.');
+      return false;
+    }
     viewer3d=$3Dmol.createViewer(document.getElementById('mol-viewer-container'),{backgroundColor:'#050a14',antialias:true});
   }
+  return true;
 }
 // CPK Jmol colors (matches 3Dmol Jmol colorscheme)
 const CPK_COLORS={
@@ -1971,10 +1992,10 @@ const KO_MOL={
   '가바':'gamma-aminobutyric acid','감마아미노뷰티르산':'gamma-aminobutyric acid','gaba':'gamma-aminobutyric acid',
   '노르에피네프린':'norepinephrine','노르아드레날린':'norepinephrine','에피네프린':'epinephrine','아드레날린':'epinephrine',
   '히스타민':'histamine','옥시토신':'oxytocin','바소프레신':'vasopressin','엔도르핀':'endorphin',
-  '엔케팔린':'enkephalin','글리신':'glycine','타우린':'taurine','아스파르트산':'aspartic acid',
+  '엔케팔린':'enkephalin','타우린':'taurine','아스파르트산':'aspartic acid',
   '멜라토닌':'melatonin','메스암페타민':'methamphetamine',
   '페닐에틸아민':'phenylethylamine','아난다마이드':'anandamide','다이노르핀':'dynorphin',
-  '뉴로텐신':'neurotensin','서브스턴스피':'substance p','칸나비노이드':'cannabinoid',
+  '뉴로텐신':'neurotensin','서브스턴스피':'substance p','서브스턴스p':'substance p','칸나비노이드':'cannabinoid',
   // 아미노산
   '발린':'valine','류신':'leucine','아이소류신':'isoleucine','트레오닌':'threonine',
   '메티오닌':'methionine','페닐알라닌':'phenylalanine','트립토판':'tryptophan','리신':'lysine',
@@ -1991,7 +2012,7 @@ const KO_MOL={
   '비타민e':'alpha-tocopherol','토코페롤':'alpha-tocopherol','비타민k':'phylloquinone',
   '엽산':'folic acid','판토텐산':'pantothenic acid','비오틴':'biotin',
   // 약물 / 의약품
-  '모르핀':'morphine','코데인':'codeine','헤로인':'heroin',
+  '코데인':'codeine','헤로인':'heroin',
   '코카인':'cocaine','암페타민':'amphetamine',
   '리탈린':'methylphenidate','메틸페니데이트':'methylphenidate',
   '디아제팜':'diazepam','발리움':'diazepam','알프라졸람':'alprazolam',
@@ -2042,12 +2063,20 @@ function lm(rawName){
   document.getElementById('viewer-input').value=rawName;
   document.getElementById('viewer-ph').style.display='none';
   document.getElementById('viewer-loading').style.display='block';
-  initViewer();
+  const viewerReady=initViewer();
   const nameErr=document.getElementById('viewer-name-error');
   if(nameErr) nameErr.style.display='none';
+  if(!viewerReady){
+    document.getElementById('viewer-loading').style.display='none';
+    const ph=document.getElementById('viewer-ph');
+    ph.style.display='block';
+    ph.innerHTML='<div class="viewer-err-ui"><div class="ve-icon">⚠</div><div class="ve-msg">3D 뷰어를 초기화할 수 없습니다</div><div class="ve-sub">3Dmol.js 라이브러리 로드에 실패했습니다.<br>네트워크 연결을 확인하고 페이지를 새로고침하세요.</div></div>';
+    return;
+  }
   const displayName=rawName!==name?`${rawName} <span style="color:var(--text3);font-size:0.8em">(${name})</span>`:rawName;
 
   const applyMol=sdf=>{
+    if(!viewer3d) return;
     viewer3d.clear();
     viewer3d.addModel(sdf,'sdf');
     viewer3d.setStyle({},getStyleObj(currentStyle));
@@ -2103,7 +2132,9 @@ function lm(rawName){
               })
               .catch(()=>{
                 // Stage 4: Full error UI
-                const notFound=e.message==='NOTFOUND';
+                // e는 Stage 1 에러(AbortError or stage===1)이므로 NOTFOUND 판별은 항상 false.
+                // 실제 분자 미발견 여부는 e.stage===1 && e.name!=='AbortError' 로 추론.
+                const notFound=e.stage===1&&e.name!=='AbortError';
                 showViewerErr(notFound?`"${rawName}" 분자를 찾을 수 없습니다. 영문명 또는 화학식을 사용하세요.`:'네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
               });
           });
@@ -2678,15 +2709,14 @@ const NORM_TABLE={
   'na':'Na','k':'K','ag':'Ag','pb':'Pb','sn':'Sn','ni':'Ni',
   'cr':'Cr','co':'Co','si':'Si','p':'P','s':'S','c':'C',
   'nh4cl':'NH4Cl','nh4oh':'NH4OH','nh4no3':'NH4NO3','nh4hco3':'NH4HCO3',
-  'bacl2':'BaCl2','na2so4':'Na2SO4','caco3':'CaCO3','feso4':'FeSO4',
   'fe2(so4)3':'Fe2(SO4)3','al2(so4)3':'Al2(SO4)3',
-  'h2o2':'H2O2','kno3':'KNO3','nano3':'NaNO3','ca3(po4)2':'Ca3(PO4)2',
+  'kno3':'KNO3','nano3':'NaNO3','ca3(po4)2':'Ca3(PO4)2',
   'na3po4':'Na3PO4','k3po4':'K3PO4','k2so4':'K2SO4','na2s':'Na2S',
   'fes':'FeS','fes2':'FeS2','cus':'CuS','zns':'ZnS',
   'hclo4':'HClO4','hclo3':'HClO3','hclo2':'HClO2','hclo':'HClO',
   'hbr':'HBr','hi':'HI','hf':'HF',
   'sio2':'SiO2','p4':'P4','s8':'S8',
-  'c':'C','n2h4':'N2H4','h2o2':'H2O2',
+  'n2h4':'N2H4',
 };
 function normFormula(raw){
   // Tokenize: optional digits, then formula token
@@ -3066,6 +3096,9 @@ function resetCompare(){
   document.getElementById('cmp-slot-b').textContent='B 선택 대기';
   document.getElementById('cmp-slot-b').classList.remove('filled');
   document.getElementById('compare-panel').classList.remove('open');
+  // [BUG FIX] bond-analysis-section 초기화 — 이전 비교 결과가 잔류하지 않도록 숨김
+  const bondSec=document.getElementById('bond-analysis-section');
+  if(bondSec) bondSec.style.display='none';
 }
 
 const COMPARE_PROPS=[
@@ -3166,17 +3199,12 @@ function drawShellModel(canvasId,el,bondClass,isElectronLoss){
   let dispShells=[...shells];
   if(bondClass==='ionic'){
     if(isElectronLoss){
-      // 전자 잃음 (양이온): 최외각 전자 제거
-      dispShells=[...shells];
       let outer=[...dispShells[dispShells.length-1]];
       if(outer.length>0) outer.pop();
       if(outer.length===0) dispShells=dispShells.slice(0,-1);
       else dispShells[dispShells.length-1]=outer;
     } else {
-      // 전자 얻음 (음이온): 최외각에 전자 추가
-      dispShells=[...shells];
       let outer=[...dispShells[dispShells.length-1]];
-      const maxOuter=outer.length<8?8:outer.length;
       if(outer.length<8) outer.push('gained');
       dispShells[dispShells.length-1]=outer;
     }
@@ -3223,8 +3251,8 @@ function drawShellModel(canvasId,el,bondClass,isElectronLoss){
 }
 
 function getElectronShells(atomicNum){
-  // 주양자수 n별 최대 전자 수: 2n²  (실제 채움 순서 근사)
-  const maxPerShell=[2,8,8,18,18,32,32];
+  // 주껍질별 최대 전자 수 2n²: n=1→2, n=2→8, n=3→18, n=4→32, n=5→32, n=6→18, n=7→8
+  const maxPerShell=[2,8,18,32,32,18,8];
   let remaining=atomicNum;
   const shells=[];
   for(let i=0;i<maxPerShell.length&&remaining>0;i++){
@@ -3234,12 +3262,12 @@ function getElectronShells(atomicNum){
     shells.push(arr);
     remaining-=fill;
   }
-  // 캔버스에 표시할 때 전자가 너무 많으면 최외각 2개 껍질만 표시 (내부는 합산)
+  // 캔버스 표시: 껍질이 4개 이상이면 내부 껍질을 합산하여 최외각 2개만 정밀 표시
   if(shells.length>3){
     const inner=shells.slice(0,-2);
     const innerTotal=inner.reduce((s,a)=>s+a.length,0);
     const innerArr=[];
-    for(let k=0;k<Math.min(innerTotal,8);k++) innerArr.push('e');
+    for(let k=0;k<Math.min(innerTotal,32);k++) innerArr.push('e');
     return [innerArr,...shells.slice(-2)];
   }
   return shells;
@@ -3452,9 +3480,7 @@ function runBalancer(){
   }).join('');
   tbl.innerHTML=hdr+rows;
   // Reaction type
-  const typeMap=[[/O2/,'연소 반응'],[/OH/,'중화 반응'],[/H2O$/,'합성 반응']];
   let rxnType='화학 반응';
-  const rxnStr=val;
   if(R.some(m=>m.f==='O2')||P.some(m=>m.f==='CO2')) rxnType='연소 반응';
   else if(R.some(m=>m.f.includes('OH'))||P.some(m=>m.f==='H2O')) rxnType='중화/산-염기 반응';
   else if(R.length===1) rxnType='분해 반응';
@@ -3466,8 +3492,9 @@ function runBalancer(){
 function copyBalanced(){
   if(!balLastResult) return;
   const {R,P,co}=balLastResult;
-  const fmt=arr=>arr.map((m,i)=>(co[i]===1?'':co[i])+m.f).join(' + ');
-  const text=fmt(R)+' → '+fmt(P);
+  const fmtR=arr=>arr.map((m,i)=>(co[i]===1?'':co[i])+m.f).join(' + ');
+  const fmtP=arr=>arr.map((m,i)=>(co[R.length+i]===1?'':co[R.length+i])+m.f).join(' + ');
+  const text=fmtR(R)+' → '+fmtP(P);
   navigator.clipboard.writeText(text).then(()=>{const b=document.querySelector('.bal-copy-btn');if(b){const old=b.textContent;b.textContent='✓ 복사됨';setTimeout(()=>b.textContent=old,1500);}}).catch(()=>{});
 }
 
