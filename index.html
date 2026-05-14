@@ -321,14 +321,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
 .fav-star-btn:hover{color:#ffdd00}
 
 /* ===== COMPARE PANEL ===== */
-.compare-panel{position:fixed;bottom:-360px;left:0;right:0;background:var(--bg2);border-top:2px solid var(--neon);z-index:790;transition:bottom 0.35s ease;box-shadow:0 -4px 24px rgba(0,0,0,0.5)}
+.compare-panel{position:fixed;bottom:-560px;left:0;right:0;background:var(--bg2);border-top:2px solid var(--neon);z-index:790;transition:bottom 0.35s ease;box-shadow:0 -4px 24px rgba(0,0,0,0.5)}
 .compare-panel.open{bottom:0}
 .compare-head{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border)}
 .compare-title{font-size:0.95em;font-weight:600;color:var(--neon)}
 .compare-slots{display:flex;gap:10px;padding:0 0 0 8px;align-items:center}
 .compare-slot{padding:4px 12px;border:1px dashed var(--border);border-radius:6px;color:var(--text3);font-size:0.82em}
 .compare-slot.filled{border-color:var(--neon);color:var(--neon);font-weight:600}
-.compare-body{overflow-x:auto;padding:12px 18px;max-height:280px}
+.compare-body{overflow-x:auto;padding:12px 18px;max-height:480px}
+.bond-analysis{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px 0 4px;border-top:1px solid var(--border);margin-top:8px}
+.bond-result-box{background:var(--bg);border-radius:10px;padding:14px 16px;border:2px solid var(--border)}
+.bond-result-box.ionic{border-color:#ff8844}
+.bond-result-box.covalent-polar{border-color:#44aaff}
+.bond-result-box.covalent-nonpolar{border-color:#00ffc8}
+.bond-result-box.metallic{border-color:#ffdd44}
+.bond-type-label{font-size:1.1em;font-weight:700;margin-bottom:6px}
+.bond-type-label.ionic{color:#ff8844}
+.bond-type-label.covalent-polar{color:#44aaff}
+.bond-type-label.covalent-nonpolar{color:#00ffc8}
+.bond-type-label.metallic{color:#ffdd44}
+.bond-detail{font-size:0.8em;color:var(--text2);line-height:1.7}
+.bond-shell-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.bond-shell-title{font-size:0.82em;color:var(--text3);text-align:center}
+.bond-multi-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;justify-items:center}
+@media(max-width:700px){.bond-analysis{grid-template-columns:1fr}}
 .compare-table{width:100%;border-collapse:collapse;min-width:480px}
 .compare-table th{padding:7px 12px;font-size:0.75em;color:var(--text3);font-weight:500;border-bottom:1px solid var(--border);text-align:center}
 .compare-table th.prop-col{text-align:left;width:160px}
@@ -782,10 +798,100 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
             <button class="mol-btn" onclick="lm('aspirin')">아스피린</button>
             <button class="mol-btn" onclick="lm('ibuprofen')">이부프로펜</button>
             <button class="mol-btn" onclick="lm('paracetamol')">타이레놀</button>
-            <button class="mol-btn" onclick="lm('dopamine')">도파민</button>
-            <button class="mol-btn" onclick="lm('serotonin')">세로토닌</button>
             <button class="mol-btn" onclick="lm('nicotine')">니코틴</button>
             <button class="mol-btn" onclick="lm('vitamin c')">비타민C</button>
+            <button class="mol-btn" onclick="lm('morphine')">모르핀</button>
+            <button class="mol-btn" onclick="lm('penicillin')">페니실린</button>
+            <button class="mol-btn" onclick="lm('diazepam')">디아제팜</button>
+            <button class="mol-btn" onclick="lm('fluoxetine')">플루옥세틴</button>
+            <button class="mol-btn" onclick="lm('methylphenidate')">메틸페니데이트</button>
+            <button class="mol-btn" onclick="lm('cocaine')">코카인</button>
+            <button class="mol-btn" onclick="lm('codeine')">코데인</button>
+            <button class="mol-btn" onclick="lm('retinol')">비타민A</button>
+            <button class="mol-btn" onclick="lm('thiamine')">비타민B1</button>
+            <button class="mol-btn" onclick="lm('folic acid')">엽산</button>
+          </div>
+        </div>
+
+        <div class="mol-category">
+          <div class="mol-category-title">🧠 신경전달물질</div>
+          <div class="mol-btn-grid">
+            <button class="mol-btn" onclick="lm('dopamine')">도파민</button>
+            <button class="mol-btn" onclick="lm('serotonin')">세로토닌</button>
+            <button class="mol-btn" onclick="lm('acetylcholine')">아세틸콜린</button>
+            <button class="mol-btn" onclick="lm('norepinephrine')">노르에피네프린</button>
+            <button class="mol-btn" onclick="lm('epinephrine')">에피네프린</button>
+            <button class="mol-btn" onclick="lm('gamma-aminobutyric acid')">GABA</button>
+            <button class="mol-btn" onclick="lm('glutamic acid')">글루탐산</button>
+            <button class="mol-btn" onclick="lm('glycine')">글리신</button>
+            <button class="mol-btn" onclick="lm('histamine')">히스타민</button>
+            <button class="mol-btn" onclick="lm('melatonin')">멜라토닌</button>
+            <button class="mol-btn" onclick="lm('oxytocin')">옥시토신</button>
+            <button class="mol-btn" onclick="lm('vasopressin')">바소프레신</button>
+            <button class="mol-btn" onclick="lm('substance p')">서브스턴스P</button>
+            <button class="mol-btn" onclick="lm('enkephalin')">엔케팔린</button>
+            <button class="mol-btn" onclick="lm('taurine')">타우린</button>
+            <button class="mol-btn" onclick="lm('phenylethylamine')">페닐에틸아민</button>
+            <button class="mol-btn" onclick="lm('anandamide')">아난다마이드</button>
+            <button class="mol-btn" onclick="lm('aspartic acid')">아스파르트산</button>
+          </div>
+        </div>
+
+        <div class="mol-category">
+          <div class="mol-category-title">🔬 아미노산</div>
+          <div class="mol-btn-grid">
+            <button class="mol-btn" onclick="lm('alanine')">알라닌</button>
+            <button class="mol-btn" onclick="lm('glycine')">글리신</button>
+            <button class="mol-btn" onclick="lm('serine')">세린</button>
+            <button class="mol-btn" onclick="lm('valine')">발린</button>
+            <button class="mol-btn" onclick="lm('leucine')">류신</button>
+            <button class="mol-btn" onclick="lm('isoleucine')">아이소류신</button>
+            <button class="mol-btn" onclick="lm('threonine')">트레오닌</button>
+            <button class="mol-btn" onclick="lm('methionine')">메티오닌</button>
+            <button class="mol-btn" onclick="lm('phenylalanine')">페닐알라닌</button>
+            <button class="mol-btn" onclick="lm('tryptophan')">트립토판</button>
+            <button class="mol-btn" onclick="lm('lysine')">리신</button>
+            <button class="mol-btn" onclick="lm('arginine')">아르지닌</button>
+            <button class="mol-btn" onclick="lm('histidine')">히스티딘</button>
+            <button class="mol-btn" onclick="lm('proline')">프롤린</button>
+            <button class="mol-btn" onclick="lm('cysteine')">시스테인</button>
+            <button class="mol-btn" onclick="lm('tyrosine')">타이로신</button>
+            <button class="mol-btn" onclick="lm('asparagine')">아스파라진</button>
+            <button class="mol-btn" onclick="lm('glutamine')">글루타민</button>
+          </div>
+        </div>
+
+        <div class="mol-category">
+          <div class="mol-category-title">⚗️ 호르몬/스테로이드</div>
+          <div class="mol-btn-grid">
+            <button class="mol-btn" onclick="lm('testosterone')">테스토스테론</button>
+            <button class="mol-btn" onclick="lm('estradiol')">에스트라디올</button>
+            <button class="mol-btn" onclick="lm('progesterone')">프로게스테론</button>
+            <button class="mol-btn" onclick="lm('cortisol')">코르티솔</button>
+            <button class="mol-btn" onclick="lm('thyroxine')">티록신</button>
+            <button class="mol-btn" onclick="lm('glucagon')">글루카곤</button>
+          </div>
+        </div>
+
+        <div class="mol-category">
+          <div class="mol-category-title">🍬 당/핵산</div>
+          <div class="mol-btn-grid">
+            <button class="mol-btn" onclick="lm('glucose')">포도당</button>
+            <button class="mol-btn" onclick="lm('fructose')">과당</button>
+            <button class="mol-btn" onclick="lm('sucrose')">자당</button>
+            <button class="mol-btn" onclick="lm('galactose')">갈락토스</button>
+            <button class="mol-btn" onclick="lm('maltose')">말토스</button>
+            <button class="mol-btn" onclick="lm('lactose')">젖당</button>
+            <button class="mol-btn" onclick="lm('ribose')">리보스</button>
+            <button class="mol-btn" onclick="lm('deoxyribose')">디옥시리보스</button>
+            <button class="mol-btn" onclick="lm('adenine')">아데닌</button>
+            <button class="mol-btn" onclick="lm('guanine')">구아닌</button>
+            <button class="mol-btn" onclick="lm('cytosine')">사이토신</button>
+            <button class="mol-btn" onclick="lm('thymine')">타이민</button>
+            <button class="mol-btn" onclick="lm('uracil')">우라실</button>
+            <button class="mol-btn" onclick="lm('adenosine triphosphate')">ATP</button>
+            <button class="mol-btn" onclick="lm('adenosine')">아데노신</button>
+            <button class="mol-btn" onclick="lm('cholesterol')">콜레스테롤</button>
           </div>
         </div>
 
@@ -1295,7 +1401,33 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Segoe 
       <button class="btn" onclick="closeCompare()">닫기</button>
     </div>
   </div>
-  <div class="compare-body"><table class="compare-table" id="compare-table"></table></div>
+  <div class="compare-body">
+    <table class="compare-table" id="compare-table"></table>
+    <div id="bond-analysis-section" style="display:none">
+      <div class="bond-analysis">
+        <div>
+          <div id="bond-result-box" class="bond-result-box">
+            <div id="bond-type-label" class="bond-type-label"></div>
+            <div id="bond-detail" class="bond-detail"></div>
+          </div>
+        </div>
+        <div class="bond-shell-wrap">
+          <div class="bond-shell-title">전자껍질 모형</div>
+          <div class="bond-multi-wrap">
+            <div style="text-align:center">
+              <canvas id="shell-canvas-a" width="130" height="130"></canvas>
+              <div id="shell-label-a" style="font-size:0.75em;color:var(--text3);margin-top:4px"></div>
+            </div>
+            <div style="text-align:center">
+              <canvas id="shell-canvas-b" width="130" height="130"></canvas>
+              <div id="shell-label-b" style="font-size:0.75em;color:var(--text3);margin-top:4px"></div>
+            </div>
+          </div>
+          <div id="bond-shell-desc" style="font-size:0.78em;color:var(--text2);text-align:center;margin-top:6px;max-width:280px;line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1834,11 +1966,66 @@ const KO_MOL={
   '산화철':'iron oxide','산화구리':'copper oxide','산화알루미늄':'aluminum oxide',
   '탄산칼슘':'calcium carbonate','탄산나트륨':'sodium carbonate','탄산수소나트륨':'sodium bicarbonate',
   '황산구리':'copper sulfate','황산나트륨':'sodium sulfate',
+  // 신경전달물질
+  '아세틸콜린':'acetylcholine','글루탐산':'glutamic acid','글루타메이트':'glutamate',
+  '가바':'gamma-aminobutyric acid','감마아미노뷰티르산':'gamma-aminobutyric acid','gaba':'gamma-aminobutyric acid',
+  '노르에피네프린':'norepinephrine','노르아드레날린':'norepinephrine','에피네프린':'epinephrine','아드레날린':'epinephrine',
+  '히스타민':'histamine','옥시토신':'oxytocin','바소프레신':'vasopressin','엔도르핀':'endorphin',
+  '엔케팔린':'enkephalin','글리신':'glycine','타우린':'taurine','아스파르트산':'aspartic acid',
+  '멜라토닌':'melatonin','메스암페타민':'methamphetamine',
+  '페닐에틸아민':'phenylethylamine','아난다마이드':'anandamide','다이노르핀':'dynorphin',
+  '뉴로텐신':'neurotensin','서브스턴스피':'substance p','칸나비노이드':'cannabinoid',
+  // 아미노산
+  '발린':'valine','류신':'leucine','아이소류신':'isoleucine','트레오닌':'threonine',
+  '메티오닌':'methionine','페닐알라닌':'phenylalanine','트립토판':'tryptophan','리신':'lysine',
+  '아르지닌':'arginine','히스티딘':'histidine','프롤린':'proline','시스테인':'cysteine',
+  '타이로신':'tyrosine','아스파라진':'asparagine','글루타민':'glutamine',
+  // 호르몬 / 스테로이드
+  '테스토스테론':'testosterone','에스트라디올':'estradiol','에스트로겐':'estrogen',
+  '프로게스테론':'progesterone','코르티솔':'cortisol','인슐린':'insulin',
+  '티록신':'thyroxine','글루카곤':'glucagon',
+  // 비타민
+  '비타민a':'retinol','레티놀':'retinol','비타민b1':'thiamine','티아민':'thiamine',
+  '비타민b2':'riboflavin','리보플라빈':'riboflavin','비타민b3':'niacin','나이아신':'niacin',
+  '비타민b6':'pyridoxine','피리독신':'pyridoxine','비타민b12':'cyanocobalamin','비타민d':'calcitriol',
+  '비타민e':'alpha-tocopherol','토코페롤':'alpha-tocopherol','비타민k':'phylloquinone',
+  '엽산':'folic acid','판토텐산':'pantothenic acid','비오틴':'biotin',
+  // 약물 / 의약품
+  '모르핀':'morphine','코데인':'codeine','헤로인':'heroin',
+  '코카인':'cocaine','암페타민':'amphetamine',
+  '리탈린':'methylphenidate','메틸페니데이트':'methylphenidate',
+  '디아제팜':'diazepam','발리움':'diazepam','알프라졸람':'alprazolam',
+  '플루옥세틴':'fluoxetine','프로작':'fluoxetine','세르트랄린':'sertraline',
+  '리튬':'lithium carbonate',
+  // 당 / 탄수화물
+  '갈락토스':'galactose','말토스':'maltose','엿당':'maltose','젖당':'lactose',
+  '리보스':'ribose','디옥시리보스':'deoxyribose',
+  // 지질
+  '팔미트산':'palmitic acid','스테아르산':'stearic acid','올레산':'oleic acid',
+  '리놀레산':'linoleic acid','아라키돈산':'arachidonic acid',
+  '레시틴':'lecithin','스핑고신':'sphingosine',
+  // 핵산 관련
+  '아데노신':'adenosine','아데노신삼인산':'adenosine triphosphate','atp':'adenosine triphosphate',
+  '구아노신':'guanosine','시티딘':'cytidine','우리딘':'uridine','티미딘':'thymidine',
+  // 일반 유기화합물 추가
+  '페놀':'phenol','아닐린':'aniline','아세트아미드':'acetamide','나이트로벤젠':'nitrobenzene',
+  '클로로폼':'chloroform','사염화탄소':'carbon tetrachloride','디에틸에터':'diethyl ether',
+  '아세트알데하이드':'acetaldehyde','프로판올':'propanol','뷰탄올':'butanol',
+  '에틸아세테이트':'ethyl acetate','다이메틸술폭사이드':'dimethyl sulfoxide','dmso':'dimethyl sulfoxide',
+  // 무기화합물 추가
+  '암모늄':'ammonium','이산화망간':'manganese dioxide','산화칼슘':'calcium oxide','생석회':'calcium oxide',
+  '탄산':'carbonic acid','아황산':'sulfurous acid','차아염소산':'hypochlorous acid',
+  '플루오린화수소':'hydrogen fluoride','브로민화수소':'hydrogen bromide',
+  '삼플루오린화붕소':'boron trifluoride','사플루오린화규소':'silicon tetrafluoride',
+  // 화학식 추가
+  'H2SO4':'sulfuric acid','HNO3':'nitric acid','H3PO4':'phosphoric acid',
   'H2O':'water','CO2':'carbon dioxide','CH4':'methane','NH3':'ammonia',
-  'C6H6':'benzene','HCl':'hydrogen chloride','H2SO4':'sulfuric acid','HNO3':'nitric acid',
+  'C6H6':'benzene','HCl':'hydrogen chloride',
   'H2O2':'hydrogen peroxide','SO2':'sulfur dioxide','NO2':'nitrogen dioxide',
   'NaCl':'sodium chloride','C2H5OH':'ethanol','CH3OH':'methanol','C2H6':'ethane',
   'C3H8':'propane','C4H10':'butane','C2H4':'ethylene','C2H2':'acetylene',
+  'CH3COOH':'acetic acid','HCOOH':'formic acid','C6H12O6':'glucose',
+  'C12H22O11':'sucrose','C2H6O':'ethanol',
 };
 function translateKo(name){
   const lower=name.trim().toLowerCase();
@@ -2914,6 +3101,157 @@ function compareElements(a,b){
   const tbl=document.getElementById('compare-table');
   tbl.innerHTML=`<thead><tr><th class="prop-col">속성</th><th class="el-col" style="color:var(--neon)">${pa.sym} ${pa.name}</th><th class="el-col" style="color:#4488ff">${pb.sym} ${pb.name}</th></tr></thead><tbody>${rows}</tbody>`;
   document.getElementById('compare-panel').classList.add('open');
+  analyzeBond(pa,pb);
+}
+
+function analyzeBond(pa,pb){
+  const sec=document.getElementById('bond-analysis-section');
+  sec.style.display='block';
+  const enA=pa.en||0, enB=pb.en||0;
+  const diff=Math.abs(enA-enB);
+  const isMetal=c=>['alkali','alkaline','transition','post-transition','lanthanide','actinide'].includes(c);
+  const isNoble=c=>c==='noble';
+  let bondClass,bondLabel,bondDesc,shellDesc;
+  if(isNoble(pa.cat)||isNoble(pb.cat)){
+    bondClass='covalent-nonpolar';
+    bondLabel='결합 불가 (비활성 기체)';
+    bondDesc=`${isNoble(pa.cat)?pa.sym:pb.sym}은 비활성 기체로 최외각 전자껍질이 완전히 채워져 있어<br>일반적인 화학 결합을 형성하지 않습니다.`;
+    shellDesc='비활성 기체는 옥텟이 이미 완성되어 있어 다른 원소와 결합하지 않습니다.';
+  } else if(isMetal(pa.cat)&&isMetal(pb.cat)){
+    bondClass='metallic';
+    bondLabel='금속 결합 (Metal Bond)';
+    bondDesc=`전기음성도: ${pa.sym} ${enA||'없음'} / ${pb.sym} ${enB||'없음'}<br>두 금속 원자 사이에서 자유 전자가 공유되는 금속 결합이 형성됩니다.<br>금속 결합은 전기·열 전도성, 연성·전성의 원인입니다.`;
+    shellDesc=`${pa.sym}과 ${pb.sym}의 원자가전자가 자유 전자 바다를 형성합니다.`;
+  } else if(diff>=1.7){
+    bondClass='ionic';
+    bondLabel=`이온 결합 (Ionic Bond)`;
+    const donor=enA<enB?pa:pb;
+    const acceptor=enA<enB?pb:pa;
+    bondDesc=`전기음성도 차이: <strong>${diff.toFixed(2)}</strong> (≥ 1.7 → 이온 결합)<br>${donor.sym}(${donor.en}) → 전자 잃음 → <strong>${donor.sym}⁺ 양이온</strong><br>${acceptor.sym}(${acceptor.en}) → 전자 얻음 → <strong>${acceptor.sym}⁻ 음이온</strong><br>정전기적 인력으로 이온 결합 형성`;
+    shellDesc=`${donor.sym}이 전자를 잃고 양이온, ${acceptor.sym}이 전자를 얻어 음이온이 됩니다.`;
+  } else if(diff>=0.4){
+    bondClass='covalent-polar';
+    bondLabel=`극성 공유 결합 (Polar Covalent)`;
+    bondDesc=`전기음성도 차이: <strong>${diff.toFixed(2)}</strong> (0.4~1.7 → 극성 공유 결합)<br>${enA>enB?pa.sym:pb.sym} 쪽으로 전자쌍이 치우침 (δ− 부분 음전하)<br>쌍극자 모멘트 발생 → 극성 분자 형성 가능`;
+    shellDesc=`전자쌍이 전기음성도가 큰 ${enA>enB?pa.sym:pb.sym} 쪽으로 치우쳐 결합합니다.`;
+  } else {
+    bondClass='covalent-nonpolar';
+    bondLabel=`무극성 공유 결합 (Nonpolar Covalent)`;
+    bondDesc=`전기음성도 차이: <strong>${diff.toFixed(2)}</strong> (< 0.4 → 무극성 공유 결합)<br>전자쌍이 두 원자 사이에 균등하게 분포<br>쌍극자 모멘트 없음 → 무극성 분자`;
+    shellDesc=`두 원자가 전자쌍을 균등하게 공유하여 공유 결합을 형성합니다.`;
+  }
+  const box=document.getElementById('bond-result-box');
+  box.className='bond-result-box '+bondClass;
+  const lbl=document.getElementById('bond-type-label');
+  lbl.className='bond-type-label '+bondClass;
+  lbl.innerHTML=bondLabel;
+  document.getElementById('bond-detail').innerHTML=bondDesc;
+  document.getElementById('bond-shell-desc').innerHTML=shellDesc;
+  document.getElementById('shell-label-a').textContent=pa.sym+' '+pa.name;
+  document.getElementById('shell-label-b').textContent=pb.sym+' '+pb.name;
+  drawShellModel('shell-canvas-a',pa,bondClass,pa.en<pb.en&&bondClass==='ionic');
+  drawShellModel('shell-canvas-b',pb,bondClass,pb.en<pa.en&&bondClass==='ionic');
+}
+
+function drawShellModel(canvasId,el,bondClass,isElectronLoss){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height,cx=W/2,cy=H/2;
+  ctx.clearRect(0,0,W,H);
+  // 원자번호로 전자 배치 계산
+  const n=el.num;
+  const shells=getElectronShells(n);
+  // 이온 결합시 전자 이동 표현
+  let dispShells=[...shells];
+  if(bondClass==='ionic'){
+    if(isElectronLoss){
+      // 전자 잃음 (양이온): 최외각 전자 제거
+      dispShells=[...shells];
+      let outer=[...dispShells[dispShells.length-1]];
+      if(outer.length>0) outer.pop();
+      if(outer.length===0) dispShells=dispShells.slice(0,-1);
+      else dispShells[dispShells.length-1]=outer;
+    } else {
+      // 전자 얻음 (음이온): 최외각에 전자 추가
+      dispShells=[...shells];
+      let outer=[...dispShells[dispShells.length-1]];
+      const maxOuter=outer.length<8?8:outer.length;
+      if(outer.length<8) outer.push('gained');
+      dispShells[dispShells.length-1]=outer;
+    }
+  }
+  const numShells=dispShells.length;
+  const maxR=Math.min(cx,cy)-10;
+  const shellStep=maxR/(numShells+0.5);
+  // 핵 그리기
+  const nucColor=getNucColor(el.sym);
+  ctx.beginPath();
+  ctx.arc(cx,cy,shellStep*0.45,0,Math.PI*2);
+  ctx.fillStyle=nucColor;
+  ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,0.3)';
+  ctx.lineWidth=1;
+  ctx.stroke();
+  ctx.fillStyle='#fff';
+  ctx.font=`bold ${shellStep*0.28}px sans-serif`;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText(el.sym,cx,cy);
+  // 껍질과 전자 그리기
+  dispShells.forEach(function(eArr,si){
+    const r=shellStep*(si+1);
+    ctx.beginPath();
+    ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.strokeStyle='rgba(100,150,200,0.35)';
+    ctx.lineWidth=1.2;
+    ctx.stroke();
+    const count=eArr.length;
+    eArr.forEach(function(e,ei){
+      const angle=(2*Math.PI/Math.max(count,1))*ei - Math.PI/2;
+      const ex=cx+r*Math.cos(angle);
+      const ey=cy+r*Math.sin(angle);
+      ctx.beginPath();
+      ctx.arc(ex,ey,3.5,0,Math.PI*2);
+      let eColor='#00ffc8';
+      if(bondClass==='ionic'&&e==='gained') eColor='#ff8844';
+      else if(bondClass==='covalent-polar'||bondClass==='covalent-nonpolar') eColor='#44aaff';
+      ctx.fillStyle=eColor;
+      ctx.fill();
+    });
+  });
+}
+
+function getElectronShells(atomicNum){
+  // 주양자수 n별 최대 전자 수: 2n²  (실제 채움 순서 근사)
+  const maxPerShell=[2,8,8,18,18,32,32];
+  let remaining=atomicNum;
+  const shells=[];
+  for(let i=0;i<maxPerShell.length&&remaining>0;i++){
+    const fill=Math.min(remaining,maxPerShell[i]);
+    const arr=[];
+    for(let j=0;j<fill;j++) arr.push('e');
+    shells.push(arr);
+    remaining-=fill;
+  }
+  // 캔버스에 표시할 때 전자가 너무 많으면 최외각 2개 껍질만 표시 (내부는 합산)
+  if(shells.length>3){
+    const inner=shells.slice(0,-2);
+    const innerTotal=inner.reduce((s,a)=>s+a.length,0);
+    const innerArr=[];
+    for(let k=0;k<Math.min(innerTotal,8);k++) innerArr.push('e');
+    return [innerArr,...shells.slice(-2)];
+  }
+  return shells;
+}
+
+function getNucColor(sym){
+  const colors={H:'#aaddff',He:'#ffd0a0',Li:'#ff8844',Be:'#88cc44',B:'#cc8844',C:'#888888',
+    N:'#4488ff',O:'#ff4444',F:'#44ff88',Ne:'#aaffee',Na:'#ffaa33',Mg:'#33cc66',
+    Al:'#aaaacc',Si:'#aa8866',P:'#ffaa00',S:'#ffee00',Cl:'#88ee44',Ar:'#ccffee',
+    K:'#ff9944',Ca:'#44cc88',Fe:'#cc6633',Cu:'#ff8833',Zn:'#88aacc',Br:'#cc4422',
+    I:'#8844aa',Au:'#ffcc00',Ag:'#cccccc',Pb:'#777799',Hg:'#99bbcc'};
+  return colors[sym]||'#5599cc';
 }
 
 // Patch buildPeriodicTable click to support compare mode
